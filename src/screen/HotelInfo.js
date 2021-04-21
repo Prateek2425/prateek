@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import '../css/components.css';
 import varimg from '../img/demo/3.png';
-import {useState, useEffect, useCallback, useRef} from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import starIcon from '../img/icons/star.svg';
 // mobile
 import backIconGrey from '../img/icons/backGrey.svg';
@@ -30,7 +30,7 @@ import SignUpBanner from '../img/banners/undraw_mobile_payments_vftl.png';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import TwitterLogin from "react-twitter-login";
-import { useHistory, useParams ,Link} from "react-router-dom";
+import { useHistory, useParams, Link } from "react-router-dom";
 import Reviews from '../components/Review';
 import addSign from '../img/icons/addSign.png';
 import minusSign from '../img/icons/minusSign.png';
@@ -47,34 +47,36 @@ import { DateRange } from 'react-date-range';
 import ImageSlider from '../components/ImageSlider';
 
 
+
 export default function HotelInfo() {
 
-    const {id} = useParams();
+    const { id } = useParams();
     const [person, setPerson] = useState(null);
     const [p, setp] = useState(null);
-     const [imagetab2, setImageTab2]=useState(false)
-     const [imagetab1, setImageTab1]=useState(true)
-    
-    const [isSignedIn, setIsSignedIn] = useState(true);
+    const [imagetab2, setImageTab2] = useState(false)
+    const [imagetab1, setImageTab1] = useState(true)
 
+    const [isSignedIn, setIsSignedIn] = useState(true);
+    const [tabVideo, setTabVideo] = useState(false)
+    const [tab2, setTab2] = useState(true)
     const [sideBar, setSideBar] = useState(false);
     const [signupPage, setSignupPage] = useState(false);
     const [signInPage, setSignInPage] = useState(false);
-   const [chat, setChat]=useState(null)
-   const [hostIds , setHostIds]=useState("")
-   
-// .......................chat Connection.....................................
-    
-const HostId = hostIds;
+    const [chat, setChat] = useState(null)
+    const [hostIds, setHostIds] = useState("")
 
-//var chatData = {};
-console.log(HostId);
+    // .......................chat Connection.....................................
+
+    const HostId = hostIds;
+
+    //var chatData = {};
+    console.log(HostId);
 
     // const chatHandler = () => {           
     //     var myHeaders = new Headers();
     //     myHeaders.append("Content-Type", "application/json");
     //     myHeaders.append("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6MSwidHlwZSI6ImRldmljZSIsImlhdCI6MTYxNjU2MjM2NX0.n8dGBHbi9_I6JObUpSEa2k-fC-mcwVK-JFh920344_o");
-        
+
     //     var name = JSON.parse(localStorage.getItem("token")).userId;
     //     console.log(name);
     //     var requestOptions = {
@@ -84,7 +86,7 @@ console.log(HostId);
     //         body: JSON.stringify({
     //             "userId" : name,
     //             "hostId" :HostId
-            
+
     //         })
     //     };
     //     console.log("sanjeev", requestOptions);
@@ -112,7 +114,7 @@ console.log(HostId);
         email: "",
         password: ""
     });
-    
+
     const [signupVal, setSignupVal] = useState({
         firstName: "",
         lastName: "",
@@ -124,7 +126,7 @@ console.log(HostId);
     });
 
     const [langView, SetLAngView] = useState(false);
-    const [userName, setUserName] = useState("null"); 
+    const [userName, setUserName] = useState("null");
     const [isAdmin, setIsAdmin] = useState(true);
 
     const [chatName, setChatName] = useState(null);
@@ -139,104 +141,104 @@ console.log(HostId);
             setIsSignedIn(false);
         } else {
             // get their value and check the token
-            
+
 
             var data = localStorage.getItem("token");
             var name = JSON.parse(data);
             setUserName(name.userName);
             setIsSignedIn(true);
 
-            
+
         }
 
-        fetch(url.baseUrl+"host/"+id, {
+        fetch(url.baseUrl + "host/" + id, {
             method: "get",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
         })
-        .then(res => res.json())
-        .then(res => {
-            setHostIds(res.data.userId);
-            console.log("hostdetail");
-            console.log(res.data.userId);
-            
-           
-            
-            if (localStorage.getItem("token") === null) {
-                getUserDetails(res.data, res.data.userId);
-            } else {
-                if (res.data.userId === JSON.parse(localStorage.getItem("token")).userId) {
-                    setIsAdmin(false);
+            .then(res => res.json())
+            .then(res => {
+                setHostIds(res.data.userId);
+                console.log("hostdetail");
+                console.log(res.data.userId);
+
+
+
+                if (localStorage.getItem("token") === null) {
+                    getUserDetails(res.data, res.data.userId);
+                } else {
+                    if (res.data.userId === JSON.parse(localStorage.getItem("token")).userId) {
+                        setIsAdmin(false);
+                    }
+                    getUserDetails(res.data, res.data.userId);
                 }
-                getUserDetails(res.data, res.data.userId);
-            }
-        })
-        .catch(error => console.log(error));
-        
+            })
+            .catch(error => console.log(error));
+
     }, []);
 
     const getUserDetails = (data, hostId) => {
-        fetch(url.baseUrl+"user?userId="+data.userId, {
+        fetch(url.baseUrl + "user?userId=" + data.userId, {
             method: "get",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
         })
-        .then(res => res.json())
-        .then(res => {
-            console.log(res.data)
-            if (localStorage.getItem("token") === null) {
-                setp(res.data);
-                setPerson(data);
-            } else {
-                getUserDetailsTwo(res.data, data, hostId);
-            }
-        })
-        .catch(error => console.log(error));
+            .then(res => res.json())
+            .then(res => {
+                console.log(res.data)
+                if (localStorage.getItem("token") === null) {
+                    setp(res.data);
+                    setPerson(data);
+                } else {
+                    getUserDetailsTwo(res.data, data, hostId);
+                }
+            })
+            .catch(error => console.log(error));
     }
 
     const getUserDetailsTwo = (res, data, hostId) => {
         var m_data = localStorage.getItem("token");
         var name = JSON.parse(m_data);
-        fetch(url.baseUrl+"saved?userId="+name.userId, {
+        fetch(url.baseUrl + "saved?userId=" + name.userId, {
             method: "get",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
         })
-        .then(resp => resp.json())
-        .then(resp => {
-            console.log("Saved");
-            // console.log(resp.data);
-            if (resp.data.length === 0) {
+            .then(resp => resp.json())
+            .then(resp => {
+                console.log("Saved");
+                // console.log(resp.data);
+                if (resp.data.length === 0) {
 
-            } else {
-                for (var key in resp.data) {
-                    if (data.id === resp.data[key].hosting_id) {
-                        data.isFav = true;
-                        data.isFavid = resp.data[key].Id
+                } else {
+                    for (var key in resp.data) {
+                        if (data.id === resp.data[key].hosting_id) {
+                            data.isFav = true;
+                            data.isFavid = resp.data[key].Id
+                        }
                     }
                 }
-            }
-            console.log("host");
-            console.log(data);
-            // setp(res);
-            // setPerson(data);
+                console.log("host");
+                console.log(data);
+                // setp(res);
+                // setPerson(data);
 
-            getUserDetailsThree(res, data, hostId)
-        })
-        .catch(error => console.log(error));
+                getUserDetailsThree(res, data, hostId)
+            })
+            .catch(error => console.log(error));
     }
 
     const getUserDetailsThree = (data1, data2, hostId) => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
         myHeaders.append("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl9pZCI6MSwidHlwZSI6ImRldmljZSIsImlhdCI6MTYxNjU2MjM2NX0.n8dGBHbi9_I6JObUpSEa2k-fC-mcwVK-JFh920344_o");
-        
+
         var userid = JSON.parse(localStorage.getItem("token")).userId;
         console.log(userid);
         var requestOptions = {
@@ -244,27 +246,27 @@ console.log(HostId);
             headers: myHeaders,
             redirect: 'follow',
             body: JSON.stringify({
-                "userId" : userid,
-                "hostId" : hostId
-            
+                "userId": userid,
+                "hostId": hostId
+
             })
         };
         console.log("sanjeev", requestOptions);
-        fetch("http://13.233.154.141:5000/api/addConnection" ,  requestOptions)
-        .then(response => response.json())
-        .then(res=> {
-            console.log("name",res.data.name);
-            setChatName(res.data.name);
-            setChatRoom(res.data.room);
-            console.log("room",res.data.room);
+        fetch("http://13.233.154.141:5000/api/addConnection", requestOptions)
+            .then(response => response.json())
+            .then(res => {
+                console.log("name", res.data.name);
+                setChatName(res.data.name);
+                setChatRoom(res.data.room);
+                console.log("room", res.data.room);
 
-            // history.push(`/chat?name=${res.data.name}&room=${res.data.room}`)
-            setChat(chat);
+                // history.push(`/chat?name=${res.data.name}&room=${res.data.room}`)
+                setChat(chat);
 
-            setp(data1);
-            setPerson(data2);
-        }) 
-        .catch(error => console.log('error', error));
+                setp(data1);
+                setPerson(data2);
+            })
+            .catch(error => console.log('error', error));
     }
 
     const signinSubmit = () => {
@@ -287,39 +289,39 @@ console.log(HostId);
                     password: signinval.password
                 })
             })
-            .then(res => res.json())
-            .then(res => { 
-                console.log(res);
-                if (res.code === 206) {
-                    swal("", "Email not found !!!", "error");
-                    setSignInPage(false);
-                    setSignupPage(true);
-                } 
-                if (res.code === 204) {
-                    swal("Try again", "Email and password does not match !!!", "error");
-                } 
-                
-                if (res.code === 200) {
-                    var userData = {
-                        "userId": res.user.id,
-                        "userToken": res.user.logintoken,
-                        "userName": res.user.name,
-                        "userEmail": res.user.email,
-                        "userProfile": res.user.profile_pic
-                    }
-                    if (localStorage.getItem("token") === null) {
-                        localStorage.setItem("token", JSON.stringify(userData));
-                        setUserName(res.user.name);
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                    if (res.code === 206) {
+                        swal("", "Email not found !!!", "error");
                         setSignInPage(false);
-                        setIsSignedIn(true);
-
-                    } else {
-                        alert("Storage error")
+                        setSignupPage(true);
                     }
-                }
+                    if (res.code === 204) {
+                        swal("Try again", "Email and password does not match !!!", "error");
+                    }
 
-            })
-            .catch(error => alert(error));
+                    if (res.code === 200) {
+                        var userData = {
+                            "userId": res.user.id,
+                            "userToken": res.user.logintoken,
+                            "userName": res.user.name,
+                            "userEmail": res.user.email,
+                            "userProfile": res.user.profile_pic
+                        }
+                        if (localStorage.getItem("token") === null) {
+                            localStorage.setItem("token", JSON.stringify(userData));
+                            setUserName(res.user.name);
+                            setSignInPage(false);
+                            setIsSignedIn(true);
+
+                        } else {
+                            alert("Storage error")
+                        }
+                    }
+
+                })
+                .catch(error => alert(error));
 
         }
     }
@@ -343,47 +345,47 @@ console.log(HostId);
         myHeaders.append("Content-Type", "application/json");
 
         var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify({
-            name: resp.profileObj.givenName + " " + resp.profileObj.familyName,
-            email: resp.profileObj.email,
-            login_type: "google"
-        }),
-        redirect: 'follow'
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify({
+                name: resp.profileObj.givenName + " " + resp.profileObj.familyName,
+                email: resp.profileObj.email,
+                login_type: "google"
+            }),
+            redirect: 'follow'
         };
 
-        fetch(url.baseUrl+"socialAuth", requestOptions)
-        .then(response => response.json())
-        .then(res => {
-            if (res.code === 206) {
-                swal("", "Email not found !!!", "error");
-                setSignInPage(false);
-                setSignupPage(true);
-            }
-            if (res.code === 200) {
-                var userData = {
-                    "userId": res.user.id,
-                    "userToken": res.user.logintoken,
-                    "userName": res.user.name,
-                    "userEmail": res.user.email,
-                    "userProfile": res.user.profile_pic
-                }
-                if (localStorage.getItem("token") === null) {
-                    localStorage.setItem("token", JSON.stringify(userData));
-                    setUserName(res.user.name);
+        fetch(url.baseUrl + "socialAuth", requestOptions)
+            .then(response => response.json())
+            .then(res => {
+                if (res.code === 206) {
+                    swal("", "Email not found !!!", "error");
                     setSignInPage(false);
-                    setIsSignedIn(true);
-
-                } else {
-                    alert("Storage error")
+                    setSignupPage(true);
                 }
-            }
-        })
-        .catch(error => alert("not able to login"));
+                if (res.code === 200) {
+                    var userData = {
+                        "userId": res.user.id,
+                        "userToken": res.user.logintoken,
+                        "userName": res.user.name,
+                        "userEmail": res.user.email,
+                        "userProfile": res.user.profile_pic
+                    }
+                    if (localStorage.getItem("token") === null) {
+                        localStorage.setItem("token", JSON.stringify(userData));
+                        setUserName(res.user.name);
+                        setSignInPage(false);
+                        setIsSignedIn(true);
+
+                    } else {
+                        alert("Storage error")
+                    }
+                }
+            })
+            .catch(error => alert("not able to login"));
     }
     const responseGoogleFail = resp => {
-        console.log("Google auth fail : "+resp);
+        console.log("Google auth fail : " + resp);
         alert("Google auth fails !")
     }
 
@@ -403,7 +405,7 @@ console.log(HostId);
         } else if (signupVal.password === "") {
             alert("Enter password ...")
         } else {
-            setSignupVal({...signupVal, login_type: "normal"})
+            setSignupVal({ ...signupVal, login_type: "normal" })
             console.log(signupVal);
             var name = signupVal.firstName + " " + signupVal.lastName
 
@@ -421,40 +423,40 @@ console.log(HostId);
                     password: signupVal.password,
                 })
             })
-            .then(res => res.json())
-            .then(res => { 
-                console.log(res);
-                if (res.code === 206) {
-                    swal("", "Email not found !!!", "error");
-                    setSignInPage(false);
-                    setSignupPage(true);
-                }
-                if (res.code === 200) {
-                    var userData = {
-                        "userId": res.user.id,
-                        "userToken": res.user.logintoken,
-                        "userName": res.user.name,
-                        "userEmail": res.user.email,
-                        "userProfile": res.user.profile_pic
-                    }
-                    if (localStorage.getItem("token") === null) {
-                        localStorage.setItem("token", JSON.stringify(userData));
-                        setUserName(res.user.name);
+                .then(res => res.json())
+                .then(res => {
+                    console.log(res);
+                    if (res.code === 206) {
+                        swal("", "Email not found !!!", "error");
                         setSignInPage(false);
-                        setIsSignedIn(true);
-    
-                    } else {
-                        alert("Storage error")
+                        setSignupPage(true);
                     }
-                }
-            })
-            .catch(error => console.log(error));
+                    if (res.code === 200) {
+                        var userData = {
+                            "userId": res.user.id,
+                            "userToken": res.user.logintoken,
+                            "userName": res.user.name,
+                            "userEmail": res.user.email,
+                            "userProfile": res.user.profile_pic
+                        }
+                        if (localStorage.getItem("token") === null) {
+                            localStorage.setItem("token", JSON.stringify(userData));
+                            setUserName(res.user.name);
+                            setSignInPage(false);
+                            setIsSignedIn(true);
+
+                        } else {
+                            alert("Storage error")
+                        }
+                    }
+                })
+                .catch(error => console.log(error));
         }
     }
 
     const responseFacebook = resp => {
         alert(resp)
-    } 
+    }
 
     const history = useHistory();
 
@@ -465,7 +467,7 @@ console.log(HostId);
             history.push("/HostYourApartment");
         }
     }
-    
+
     // date
     const outRefDate = useRef(null);
     const inRefDate = useRef(null);
@@ -480,30 +482,30 @@ console.log(HostId);
         if (inRefGuest.current.contains(e.target)) return;
         setNoOfGuest(false);
     }
-    const [noOfGuest,setNoOfGuest] = useState(false);
+    const [noOfGuest, setNoOfGuest] = useState(false);
     const [guestAdult, setGuestAdult] = useState(0);
     const [guestChild, setGuestChild] = useState(0);
     const [guestInfant, setGuestInfant] = useState(0);
     const guestVal = sign => {
 
         if (sign === "+") {
-            if (guestAdult+1 <= 6) {
+            if (guestAdult + 1 <= 6) {
                 if (guestAdult >= 0) {
                     setGuestAdult(preV => preV + 1);
-                    console.log("+"+(guestAdult+1));
+                    console.log("+" + (guestAdult + 1));
                 }
             }
         } else {
             if (guestAdult > 0) {
                 setGuestAdult(preV => preV - 1);
-                console.log("-"+(guestAdult-1));
+                console.log("-" + (guestAdult - 1));
             }
         }
     }
     const childVal = sign => {
 
         if (sign === "+") {
-            if (guestChild+1 <= 6) {
+            if (guestChild + 1 <= 6) {
                 if (guestChild >= 0) {
                     setGuestChild(preV => preV + 1);
                 }
@@ -517,7 +519,7 @@ console.log(HostId);
     const infantVal = sign => {
 
         if (sign === "+") {
-            if (guestInfant+1 <= 6) {
+            if (guestInfant + 1 <= 6) {
                 if (guestInfant >= 0) {
                     setGuestInfant(preV => preV + 1);
                 }
@@ -528,7 +530,7 @@ console.log(HostId);
             }
         }
     }
-    
+
     // dates
     const [dateView, setDateView] = useState(false);
     const [startDate, setStartDate] = useState(new Date());
@@ -580,22 +582,22 @@ console.log(HostId);
         });
     }
 
-   
+
 
     const names = JSON.parse(localStorage.getItem("token")).userId;
     console.log(names)
 
-    if(!person) {
-        return (<div style={{display: "flex", alignContent: "center", justifyContent: "center"}}><img style={{marginTop: "20%", width: "100px"}} src={loading} alt="" /></div>)
+    if (!person) {
+        return (<div style={{ display: "flex", alignContent: "center", justifyContent: "center" }}><img style={{ marginTop: "20%", width: "100px" }} src={loading} alt="" /></div>)
     } else {
         return (
 
             <>
-    
+
                 <div className="desktop">
                     <div className={headerStyle.headBody1}>
                         <div className={headerStyle.headUpNavMain}>
-                            <div className={headerStyle.headUpNavMain1} onClick={() => history.goBack()}><img src={rightArrowIcon} alt=""/></div>
+                            <div className={headerStyle.headUpNavMain1} onClick={() => history.goBack()}><img src={rightArrowIcon} alt="" /></div>
                             <div className={headerStyle.headUpNav}>
                                 <a className={headerStyle.headUpNavLink} onClick={switchToHosting}><span>Become a host</span></a>
                                 <a className={headerStyle.headUpNavLink} onClick={() => SetLAngView(true)}><img src={worldIcon} alt="" /></a>
@@ -606,40 +608,56 @@ console.log(HostId);
                         </div>
                     </div>
                     <div className="carInfo0Cont">
-                        
+
                         <div className="carInfo0">
-                            {imagetab1 &&(
+                            {imagetab1 && (
 
-                                <div className="carInfo01">     
-                                {person.imageList[0] ? <div className="carInfo01img1"><img src={person.imageList[0]} alt="" /></div> : <div className="carInfo01img1"><img src={bg} alt="" /></div>}
-                                <div className="carInfo01img2">
-                                    <div className="carInfo01img21">
-                                        {person.imageList[1] ? <img src={person.imageList[1]} alt="" /> : <img src={bg} alt="" />}
+                                <div className="carInfo01">
+                                    {person.imageList[0] ? <div className="carInfo01img1"><img src={person.imageList[0]} alt="" /></div> : <div className="carInfo01img1"><img src={bg} alt="" /></div>}
+                                    <div className="carInfo01img2">
+                                        <div className="carInfo01img21">
+                                            {person.imageList[1] ? <img src={person.imageList[1]} alt="" /> : <img src={bg} alt="" />}
+                                        </div>
+                                        <div className="carInfo01img21" style={{ marginTop: '10px', height: '50%' }}>
+                                            {person.imageList[2] ? <img src={person.imageList[2]} alt="" /> : <img src={bg} alt="" />}
+                                        </div>
+
                                     </div>
-                                    <div className="carInfo01img21" style={{marginTop: '10px', height: '50%'}}>
-                                        {person.imageList[2] ? <img src={person.imageList[2]} alt="" /> : <img src={bg} alt="" />}
-                                    </div>
-                                    
+                                    <div className="carInfo01img3" onClick={() => { setImageTab2(true); setImageTab1(false) }} >5+ Photos </div>
                                 </div>
-                                <div className="carInfo01img3" onClick={() => {setImageTab2(true); setImageTab1(false)}} >5+ Photos </div>
-                                </div>
-                                )}
+                            )}
 
-                                {imagetab2 &&(
-                                    <ImageSlider images={person.imageList} />
-                                )}
+                            {imagetab2 && (
+                                <ImageSlider images={person.imageList} />
+                            )}
 
-                            <div style={{float: "left"}}>
-                                <div style={{width: "100%", float: "left"}}>
+                            <div style={{ float: "left" }}>
+                                <div style={{ width: "100%", float: "left" }}>
                                     <div className="hotelInfo0S">
                                         <div className="hotelInfo1">
                                             <div className="hotelInfo01">{person.listingTitle}</div>
                                             <div className="hotelInfo01I0">{person.addrStreet}, {person.addrCity}, {person.addrState}</div>
-                                            <div style={{marginBottom: "15px", marginTop: "5px", float: "left"}}>{person.noOfGuests} guests . {person.bedrooms} bedroom . {person.noOfBed} bed . {person.baths} bathroom</div>
+                                            <div style={{ marginBottom: "15px", marginTop: "5px", float: "left" }}>{person.noOfGuests} guests . {person.bedrooms} bedroom . {person.noOfBed} bed . {person.baths} bathroom</div>
                                         </div>
+                                        <button className="hotelInfo01button" onClick={() => { setTabVideo(true); setTab2(false) }}>Watch Video</button>
                                     </div>
+                                    {tabVideo && (
 
-                                     <div className="hotelInfo0S1">
+                                        <div className="signup00" onClick={() => { setTabVideo(false); setTab2(true) }}>
+                                            <div className="sign00">
+                
+                                                 
+                                                  <div >  <video width="100%" height="100%" controls autoPlay >
+                                                  <source src={person.video} type="video/mp4" />
+                                                      </video></div>
+                                      
+                                            </div>
+                                               </div>
+                                    )}
+
+
+
+                                    <div className="hotelInfo0S1">
                                         <div className="hotelInfo1">
                                             <div className="hotelInfo01">About Apartment</div>
                                             <div className="hotelInfo01I1">
@@ -647,14 +665,14 @@ console.log(HostId);
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <div className="hotelInfo0S1" style={{backgroundColor: '#ECECEC', width: 'auto', padding: '10px', borderRadius: '5px'}}>
-                                        <Link style={{width: '15%',cursor: 'pointer'}} to={`/chat?name=${JSON.parse(localStorage.getItem('token')).userName}&room=${chatRoom}&username=${chatName}&profile=${p.profile_pic||profilepic}`}>
-                                        <img src={ChatImage} alt="" style={{width:'20px', float: 'left', marginLeft: '40%'}} />
-                                        <div style={{fontSize:'17px',fontWeight:'600' , marginLeft:"5px",color:"black", textDecoration: 'none'}}>Message Host</div>
+
+                                    <div className="hotelInfo0S1" style={{ backgroundColor: '#ECECEC', width: 'auto', padding: '10px', borderRadius: '5px' }}>
+                                        <Link style={{ width: '15%', cursor: 'pointer' }} to={`/chat?name=${JSON.parse(localStorage.getItem('token')).userName}&room=${chatRoom}&username=${chatName}&profile=${p.profile_pic || profilepic}`}>
+                                            <img src={ChatImage} alt="" style={{ width: '20px', float: 'left', marginLeft: '40%' }} />
+                                            <div style={{ fontSize: '17px', fontWeight: '600', marginLeft: "5px", color: "black", textDecoration: 'none' }}>Message Host</div>
                                         </Link>
-                                    </div> 
-                        
+                                    </div>
+
                                     <div className="hotelInfo0S1">
                                         <div className="hotelInfo1">
                                             <div className="hotelInfo01">Amenities</div>
@@ -681,58 +699,60 @@ console.log(HostId);
                             </div>
                         </div>
                     </div>
+                    {tab2 && (
 
-                    <div className="carInfo1">
-                        <div className="carInfo10">
-                            <div className="carInfo101">$ {person.basePrice}/night</div>
+                        <div className="carInfo1">
+                            <div className="carInfo10">
+                                <div className="carInfo101">$ {person.basePrice}/night</div>
+                                {isAdmin && (
+                                    <div className="hotelInfo03">
+                                        <SetFav val={person.isFav} id={person.id} isFavid={person.isFavid} openLogin={() => setSignInPage(true)} />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="carInfo11">
+                                <img src={p.profile_pic} alt="" />
+                            </div>
+                            <div className="carInfo12">{p.name}</div>
                             {isAdmin && (
-                                <div className="hotelInfo03">
-                                    <SetFav val={person.isFav} id={person.id} isFavid={person.isFavid} openLogin={() => setSignInPage(true)} />
-                                </div>
+                                <div className="carInfo13">(Host)</div>
                             )}
-                        </div>
-                        <div className="carInfo11">
-                            <img src={p.profile_pic} alt="" />
-                        </div>
-                        <div className="carInfo12">{p.name}</div>
-                        {isAdmin && (
-                            <div className="carInfo13">(Host)</div>
-                        )}
-                        <div className="carInfo14">
-                            <span className="carInfo141">
-                                4.7 <span className="carInfo1411"><img src={starIcon} alt="" /></span>
+                            <div className="carInfo14">
+                                <span className="carInfo141">
+                                    4.7 <span className="carInfo1411"><img src={starIcon} alt="" /></span>
                                 . 68 Reviews
                             </span>
+                            </div>
+                            {isAdmin && (
+                                <>
+                                    <div className="carInfo15"><button onClick={bookingHandle}>Book Now</button></div>
+                                    <div className="carInfo16">OR</div>
+                                    <div className="carInfo17"><button onClick={() => history.push('/carsList')}>Add car to booking</button></div>
+                                </>
+                            )}
                         </div>
-                        {isAdmin && (
-                            <>
-                                <div className="carInfo15"><button onClick={bookingHandle}>Book Now</button></div>
-                                <div className="carInfo16">OR</div>
-                                <div className="carInfo17"><button onClick={() => history.push('/carsList')}>Add car to booking</button></div>
-                            </>
-                        )}
-                    </div>
-                    
+                    )}
                 </div>
+
 
                 <div className="mobile">
                     {/* header */}
                     <div className="placesNearMob0">
                         <div className="placesNearMob01"><img src={backIconGrey} alt="" onClick={() => history.goBack()} /></div>
                         <div className="placesNearMob02">Nearby</div>
-                        <div className="placesNearMob04" style={{float: "right", marginRight: "20px"}}><img src={fav} alt="" /></div>
+                        <div className="placesNearMob04" style={{ float: "right", marginRight: "20px" }}><img src={fav} alt="" /></div>
                     </div>
 
                     {/* body */}
                     <div className="hotelInfoMob0">
 
                         <div className="hotelInfoMob01">
-                            <img src={varimg} alt="" /> 
+                            <img src={varimg} alt="" />
                         </div>
 
                         <div className="hotelInfoMob02">
                             <div className="hotelInfoMob021">Name</div>
-                            
+
                             <div className="hotelInfoMob022">
                                 <div className="hotelInfoMob0221">$ 17/night</div>
                                 <div className="hotelInfoMob0222">* 5.0(34)</div>
@@ -783,7 +803,7 @@ console.log(HostId);
                                 isOutsideRange={() => false}
                                 months={2}
                                 direction="horizontal"
-                                ranges={[selectionRange]} 
+                                ranges={[selectionRange]}
                                 onChange={handleDateSelect}
                                 minDate={new Date()}
                             />
@@ -805,13 +825,13 @@ console.log(HostId);
                             <div className="deskSearch0N1">
 
                                 <div className="deskSearch0N1head">No. of guests</div>
-                                
+
                                 <div className="deskSearch0N10">
                                     <div className="deskSearch0N101">Adults</div>
                                     <div className="deskSearch0N102">
                                         <img src={minusSign} alt="" onClick={() => guestVal("-")} />
                                         <div className="deskSearch0N1021">{guestAdult}</div>
-                                        <img src={addSign} alt="" onClick={() => guestVal("+")} /> 
+                                        <img src={addSign} alt="" onClick={() => guestVal("+")} />
                                     </div>
                                 </div>
 
@@ -820,7 +840,7 @@ console.log(HostId);
                                     <div className="deskSearch0N102">
                                         <img src={minusSign} alt="" onClick={() => childVal("-")} />
                                         <div className="deskSearch0N1021">{guestChild}</div>
-                                        <img src={addSign} alt="" onClick={() => childVal("+")} /> 
+                                        <img src={addSign} alt="" onClick={() => childVal("+")} />
                                     </div>
                                 </div>
 
@@ -829,14 +849,14 @@ console.log(HostId);
                                     <div className="deskSearch0N102">
                                         <img src={minusSign} alt="" onClick={() => infantVal("-")} />
                                         <div className="deskSearch0N1021">{guestInfant}</div>
-                                        <img src={addSign} alt="" onClick={() => infantVal("+")} /> 
+                                        <img src={addSign} alt="" onClick={() => infantVal("+")} />
                                     </div>
                                 </div>
 
                             </div>
 
                             {/* next button */}
-                            <div className="deskSearch03" style={{marginTop: "25px"}}>
+                            <div className="deskSearch03" style={{ marginTop: "25px" }}>
                                 <button onClick={finalHandle}>Book</button>
                             </div>
 
@@ -845,12 +865,12 @@ console.log(HostId);
                 )}
 
                 {sideBar && (
-                    isSignedIn ? 
-                    <div className={headerStyle.headSideBar} onMouseEnter={() => setSideBar(true)} onMouseLeave={() => setSideBar(false)}>
+                    isSignedIn ?
+                        <div className={headerStyle.headSideBar} onMouseEnter={() => setSideBar(true)} onMouseLeave={() => setSideBar(false)}>
                             <div className={headerStyle.headSideBar011S0}>
                                 <div className={headerStyle.headSideBar011S01}><img src={JSON.parse(localStorage.getItem("token")).userProfile} alt="" /></div>
-                                <div className={headerStyle.headSideBar011S02}>{userName} 
-                                    <div className={headerStyle.headSideBar011S021} style={{width: '100%'}}>{JSON.parse(localStorage.getItem("token")).userEmail}</div>
+                                <div className={headerStyle.headSideBar011S02}>{userName}
+                                    <div className={headerStyle.headSideBar011S021} style={{ width: '100%' }}>{JSON.parse(localStorage.getItem("token")).userEmail}</div>
                                 </div>
                             </div>
                             <div className={headerStyle.headSideBar011S1}><button onClick={() => history.push('/Account')}>View Profile</button></div>
@@ -863,22 +883,22 @@ console.log(HostId);
                             <p onClick={() => history.push('/hostCars')}>Host your cars</p>
                             <p onClick={() => history.push('/HostYourApartment')}>Host your apartment</p>
                             <p onClick={signOutSubmit}>Signout</p>
-                    </div> : 
-                    <div className={headerStyle.headSideBar} onMouseEnter={() => setSideBar(true)} onMouseLeave={() => setSideBar(false)}>
-                        <p onClick={openSignUpPage}>Sign Up</p>
-                        <p onClick={openSignInPage}>Login</p>
-                        <hr/>
-                        <p>Host your Home</p>
-                        <p>Host an experience</p>
-                        <p>Help</p>
-                    </div>
+                        </div> :
+                        <div className={headerStyle.headSideBar} onMouseEnter={() => setSideBar(true)} onMouseLeave={() => setSideBar(false)}>
+                            <p onClick={openSignUpPage}>Sign Up</p>
+                            <p onClick={openSignInPage}>Login</p>
+                            <hr />
+                            <p>Host your Home</p>
+                            <p>Host an experience</p>
+                            <p>Help</p>
+                        </div>
                 )}
-                            
+
                 {/* language box */}
                 {langView && (
                     <div className="langCont0">
                         <div className="langCont01">
-                            <div  className="langCont01Close"><img src={closeBtn} onClick={() => SetLAngView(false)} alt="" /></div>
+                            <div className="langCont01Close"><img src={closeBtn} onClick={() => SetLAngView(false)} alt="" /></div>
                             <div className="langCont011">
                                 <div className="langCont0111">
                                     <span className="langCont01111">
@@ -892,26 +912,26 @@ console.log(HostId);
                                 </div>
                                 <div className="langCont0112">Suggested languages and regions</div>
                                 <div className="langCont0113">
-                                    
+
                                     <div className="langCont01131" onClick={() => {
                                         localStorage.setItem('locale', 'en');
-                                        window.location.reload(); 
+                                        window.location.reload();
                                     }}>
                                         <div className="langCont011311">English</div>
                                         <div className="langCont011312">United state</div>
                                     </div>
                                     <div className="langCont01131" onClick={() => {
                                         localStorage.setItem('locale', 'hi');
-                                        window.location.reload(); 
+                                        window.location.reload();
                                     }}>
                                         <div className="langCont011311">हिंदी</div>
                                         <div className="langCont011312">भारत</div>
                                     </div>
-    
+
                                 </div>
                                 <div className="langCont0112">Suggested language and region</div>
                                 <div className="langCont0113">
-                                    
+
                                     <div className="langCont01131">
                                         <div className="langCont011311">English</div>
                                         <div className="langCont011312">United state</div>
@@ -960,17 +980,17 @@ console.log(HostId);
                                         <div className="langCont011311">English</div>
                                         <div className="langCont011312">United state</div>
                                     </div>
-    
+
                                 </div>
-    
+
                             </div>
                         </div>
                     </div>
                 )}
-    
+
                 {/* Login view */}
                 {signInPage && (
-    
+
                     <div className="signupPage">
                         <div className="sign0">
                             <div className="sign01">
@@ -985,17 +1005,17 @@ console.log(HostId);
                                 <div className="Closebtn">
                                     <div onClick={() => setSignInPage(false)}>Close</div>
                                 </div>
-    
+
                                 {/* 2nd row */}
                                 <div className="sign021">Log In</div>
                                 <div className="sign022">
                                     <span className="sign0221"><img src={UserImg} alt="" /></span>
-                                    <span className="sign0222"><input type="text" placeholder="Enter your email ..." onChange={e => setSigninval({...signinval, email: e.target.value})} /></span>
+                                    <span className="sign0222"><input type="text" placeholder="Enter your email ..." onChange={e => setSigninval({ ...signinval, email: e.target.value })} /></span>
                                     <span className="sign0223"><img src={downArrow} alt="" /></span>
                                 </div>
                                 <div className="sign022">
                                     <span className="sign0221"><img src={LockImg} alt="" /></span>
-                                    <span className="sign0222"><input type="password" placeholder="Enter your password ..." onChange={e => setSigninval({...signinval, password: e.target.value})} /></span>
+                                    <span className="sign0222"><input type="password" placeholder="Enter your password ..." onChange={e => setSigninval({ ...signinval, password: e.target.value })} /></span>
                                     <span className="sign0223"><img src={downArrow} alt="" /></span>
                                 </div>
                                 <div className="sign023">
@@ -1035,7 +1055,7 @@ console.log(HostId);
                                             autoLoad={false}
                                             fields="name,email,picture"
                                             cookie={true}
-                                            callback={responseFacebook} 
+                                            callback={responseFacebook}
                                             render={renderProp => (
                                                 <button onClick={renderProp.onClick} className="GoogleBtn">
                                                     <img src={FbImg} alt="" />
@@ -1044,19 +1064,19 @@ console.log(HostId);
                                         />
                                     </div>
                                 </div>
-    
+
                             </div>
                         </div>
                     </div>
-    
-                    )}
-    
-                    {/* reigster view */}
-                    {signupPage && (
+
+                )}
+
+                {/* reigster view */}
+                {signupPage && (
                     <div className="signupPage">
                         <div className="sign0">
                             <div className="sign01">
-    
+
                                 {/* 1st row */}
                                 <div className="sign011"><img src={SignUpBanner} alt="" /></div>
                                 <div className="sign012" onClick={() => {
@@ -1072,22 +1092,22 @@ console.log(HostId);
                                 <div className="sign021Ex">Sign Up</div>
                                 <div className="sign022">
                                     <span className="sign0221"><img src={UserImg} alt="" /></span>
-                                    <span className="sign0222"><input type="text" placeholder="First name ..." onChange={e => setSignupVal({...signupVal, firstName: e.target.value})} /></span>
+                                    <span className="sign0222"><input type="text" placeholder="First name ..." onChange={e => setSignupVal({ ...signupVal, firstName: e.target.value })} /></span>
                                     <span className="sign0223"><img src={downArrow} alt="" /></span>
                                 </div>
                                 <div className="sign022">
                                     <span className="sign0221"><img src={UserImg} alt="" /></span>
-                                    <span className="sign0222"><input type="text" placeholder="Last name ..." onChange={e => setSignupVal({...signupVal, lastName: e.target.value})} /></span>
+                                    <span className="sign0222"><input type="text" placeholder="Last name ..." onChange={e => setSignupVal({ ...signupVal, lastName: e.target.value })} /></span>
                                     <span className="sign0223"><img src={downArrow} alt="" /></span>
                                 </div>
                                 <div className="sign022">
                                     <span className="sign0221"><img src={EmailImg} alt="" /></span>
-                                    <span className="sign0222"><input type="text" placeholder="Email ..." onChange={e => setSignupVal({...signupVal, email: e.target.value})} /></span>
+                                    <span className="sign0222"><input type="text" placeholder="Email ..." onChange={e => setSignupVal({ ...signupVal, email: e.target.value })} /></span>
                                     <span className="sign0223"><img src={downArrow} alt="" /></span>
                                 </div>
                                 <div className="sign022">
                                     <span className="sign0221"><img src={LockImg} alt="" /></span>
-                                    <span className="sign0222"><input type="password" placeholder="Password ..."  onChange={e => setSignupVal({...signupVal, password: e.target.value})} /></span>
+                                    <span className="sign0222"><input type="password" placeholder="Password ..." onChange={e => setSignupVal({ ...signupVal, password: e.target.value })} /></span>
                                     <span className="sign0223"><img src={downArrow} alt="" /></span>
                                 </div>
                                 <div className="sign023">
@@ -1095,8 +1115,8 @@ console.log(HostId);
                                     <span className="sign0232">Remember me</span>
                                 </div>
                                 <div className="sign023"><button onClick={SignUpSubmit}>Sign Up</button></div>
-    
-    
+
+
                                 <div className="sign024Ex">
                                     <span className="sign0241">Or Sign Up with</span>
                                     <div className="sign0242">
@@ -1130,7 +1150,7 @@ console.log(HostId);
                                             status={true}
                                             xfbml={true}
                                             fields="name,email,picture"
-                                            callback={responseFacebook} 
+                                            callback={responseFacebook}
                                             render={renderProp => (
                                                 <button onClick={renderProp.onClick} className="GoogleBtn">
                                                     <img src={FbImg} alt="" />
@@ -1139,14 +1159,14 @@ console.log(HostId);
                                         />
                                     </div>
                                 </div>
-    
+
                             </div>
                         </div>
                     </div>
                 )}
-    
+
             </>
-    
+
         );
     }
 }

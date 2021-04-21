@@ -25,7 +25,7 @@ import Switch from "react-switch";
 import Delete from "../img/icons/delete.png"
 import swal from 'sweetalert';
 import bg from '../img/banners/ad1.jpg';
-
+import Video from "video.js";
 import Map from "../components/Map";
 import loading from '../img/icons/loading.gif';
 // import "../css/reviews.css";
@@ -163,42 +163,62 @@ export default function HostYourApartment() {
     // }
 
     // images
-   const handleClickUploadImage=()=>{
-//     var formdata = new FormData();
+
+    const [videoList, setVideoList] = useState([]);
+
+    const handleClickUploadImage = (e) => {
+
+        var formdata = new FormData();
+
+        for (var i = 0; i < e.target.files.length; i++) {
+            formdata.append("file", e.target.files[i], e.target.files[i].name);
+        }
+
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+        console.log("falg1")
+        fetch(`${url.baseUrl}/upload`, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log("falg3")
+                console.log(result.Data)
+                var imageLinks = result.Data;
+                console.log(result.Data)
+                imageLinks.map(vals => setVideoList(prevImg => prevImg.concat(vals.Location)));
+            })
+            .catch(error => console.log('error', error));
+    }
+    const videoListed = videoList;
+    console.log("prateek", videoListed)
+
+    const renderVideo = () => {
+        return videoList.map((video, index) => {
+            return (<>
+                <div className="uploadedImage">
+                    <video width="450" height="250" controls autoPlay >
+                        <source src={video} key={index} type="video/mp4" />
+                    </video>
+                    {/* <video src={video} key={index} /> */}
+                    <img src={Delete} alt="" style={{ width: '10%', margin: '-150% 0px 0px 250%' }}
+                        onClick={() => removeElems(index)}
+                    />
+                </div> </>)
+        })
+    }
         
-//     for(var  j = 0; j < e.target.files.length; j++) {
-//         formdata.append("file", e.target.files[j], e.target.files[j].name);
-//     }
+        const  removeElems =(index) =>{
+            const newVideoList = videoList.filter((curElm, key)=>{
+              return key !== index;
+            })
+            setVideoList(newVideoList)
+          }
 
-//     var requestOptions = {
-//     method: 'POST',
-//     body: formdata,
-//     redirect: 'follow'
-//     };
-//     console.log("falg1")
-//     fetch(`${url.baseUrl}/upload`, requestOptions)
-//     .then(response => response.json())
-//     .then(result => {
-//         console.log("falg2")
-//         console.log(result.Data)
-//         var imageLink = result.Data;
-//         console.log(result.Data)
-//     })
-//     .catch(error => console.log('error', error));
-    
-
-   }
-
-
-
-
-
-
-
-
-
+// ..............................................................................................
     const [imageList, setImageList] = useState([]);
-    const [selectedImage, setSelectedImage] = useState([]);
+    // const [selectedImage, setSelectedImage] = useState([]);
     const uploadImageHandler = e => {
 
         var formdata = new FormData();
@@ -225,21 +245,30 @@ export default function HostYourApartment() {
         .catch(error => console.log('error', error));
         
     
-        if (e.target.files) {
-            const fileArray = Array.from(e.target.files).map(file => URL.createObjectURL(file))
-            setSelectedImage(prevImg => prevImg.concat(fileArray))
-            Array.from(e.target.files).map(file => URL.revokeObjectURL(file))
-        }
+        // if (e.target.files) {
+        //     const fileArray = Array.from(e.target.files).map(file => URL.createObjectURL(file))
+        //     setSelectedImage(prevImg => prevImg.concat(fileArray))
+        //     Array.from(e.target.files).map(file => URL.revokeObjectURL(file))
+        // }
         console.log("image list")
     }
-    const renderPhoto = source => {
-        return source.map((photo, key) => {
+    const renderPhoto = () => {
+        return imageList.map((photo, keys) => {
             return ( <>
-            <div className="uploadedImage"><img src={photo} key={key} alt="" />
-            <img src={Delete} alt=""  style={{width: '10%', margin: '-50% 0px 0px 65px'}}/>
+            <div className="uploadedImage"><img src={photo} key={keys} alt="" />
+            <img src={Delete} alt="" style={{width: '10%', margin: '-75% 0px 0px 70px'}}
+            onClick={()=> removeElem(keys)}   />
             </div> </>)
         })
     }
+    const  removeElem =(keys) =>{
+        //   alert(VersionId)
+        const newImageList = imageList.filter((curElm, key)=>{
+          return key !== keys;
+        })
+        setImageList(newImageList)
+      }
+    // ...................................................................................... 
 
     // image government id
     const [imageGovList, setImageGovList] = useState(null);
@@ -605,7 +634,7 @@ export default function HostYourApartment() {
             "lat": markers[0].lat,
             "lng": markers[0].lng,
             "forGuestOnly": "",
-            "video": null
+            "video": videoList
         }),
         redirect: 'follow'
         };
@@ -1180,7 +1209,7 @@ export default function HostYourApartment() {
 
                                 {/* result */}
                                 <div className="uploadedImageCont">
-                                    {renderPhoto(selectedImage)}
+                                    {renderPhoto(imageList)}
                                 </div>
 
                             </div>
@@ -1190,12 +1219,12 @@ export default function HostYourApartment() {
                                     setTab4(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    if (selectedImage.length === 0) {
+                                    if (imageList.length === 0) {
                                         setErrTab2(true);
                                         setInterval(() => setErrTab2(false), errorDisplayTime);
                                     } else {
                                         setTab5(false);
-                                        setTab7(true);
+                                        setTab6(true);
                                     }
                                 }}>Next</button>
                             </div>
@@ -1208,7 +1237,7 @@ export default function HostYourApartment() {
             )}
 
             {/* tab 6 */}
-             {/* {tab6 && (
+               {tab6 && (
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 6: Add photos</div>
                     <div className="HostYourApartment1">
@@ -1216,31 +1245,32 @@ export default function HostYourApartment() {
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
-                            <div className="HostYourApartment21"> 
+                            <div className="HostYourApartment21">
 
-                        
-                                 <div className="HostYourApartment212">
-                                    <form onSubmit={handleClickUploadImage}>
-                             <input type="file" accept="video/*" />
-                             <label htmlFor="file">Select video</label>
-                                        {/* {videoUploading && <div>Uploading ...</div>} */}
-                                       
-                                        {/* <button type="submit">Upload Video</button>
-                                    </form>
-                                </div>  */}
+                                <input type="file" id="file"   accept="video/*" onChange={e => handleClickUploadImage(e)} multiple style={{ display: "none" }} />
 
+                                <div className="HostYourApartment212">
+                                    <div className="HostYourApartment2121">Share a short video of your listing with guests.</div>
+                                    <label htmlFor="file">Upload Video</label>
+                                </div> 
                                 {/* {videoList.length > 0 ? (<div>t<div>) : (<div>f</div>)} */}
-
-                             {/* </div>
+                                 <div className="uploadedImageCont">
+                                    {renderVideo(videoList)}
+                                </div>
+                              </div>
                             <div className="HostYourApartment22">
                                 <button className="HostYourApartment221" onClick={() => {
                                     setTab6(false);
                                     setTab5(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    setTab6(false);
+                                   if (videoList.length === 0) {
+                                    setErrTab2(true);
+                                    setInterval(() => setErrTab2(false), errorDisplayTime);
+                                } else {
+                                  setTab6(false);
                                     setTab7(true);
-                                }}>Continue to listing</button>
+                                  }  }}>Continue to listing</button>
                             </div>
                         </div>
                         <div className="HostYourApartment2E2">
@@ -1248,7 +1278,7 @@ export default function HostYourApartment() {
                         </div>
                     </div>
                 </div>
-            )}  */}
+            )}                      
 
             {/* tab 7 */}
             {tab7 && (
@@ -1338,7 +1368,7 @@ export default function HostYourApartment() {
                             <div className="HostYourApartment22">
                                 <button className="HostYourApartment221" onClick={() => {
                                     setTab7(false);
-                                    setTab5(true);
+                                    setTab6(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
                                     setTab7(false);
@@ -1636,7 +1666,7 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Discount offered to guests</div>
-                                    <select ref={p10_3} value={allVar.discountOfferedToGuest} onChange={e => setAllVar({...allVar, discountOfferedToGuest: e.target.value})}>
+                                    <select value={allVar.discountOfferedToGuest} onChange={e => setAllVar({...allVar, discountOfferedToGuest: e.target.value})}>
                                         <option value="0">None</option>
                                         <option value="5">5%</option>
                                         <option value="10m">10%</option>
@@ -1662,8 +1692,7 @@ export default function HostYourApartment() {
                                     p10_1.current.style.border="none";
                                     p10_1.current.style.borderBottom="1px solid #e1e1e1";
                                     p10_2.current.style.border="1px solid #e1e1e1";
-                                    p10_3.current.style.border="none";
-                                    p10_3.current.style.borderBottom="1px solid #e1e1e1";
+                                
                                     if (allVar.currency === "0") {
                                         p10_1.current.style.border="none";
                                         p10_1.current.style.borderRadius="4px";
@@ -1673,12 +1702,6 @@ export default function HostYourApartment() {
                                     } else if (allVar.basePrice === "") {
                                         p10_2.current.style.border="1px solid red";
                                         p10_2.current.focus();
-                                        setErrTab(true);
-                                        setInterval(() => setErrTab(false), errorDisplayTime);
-                                    } else if (allVar.discountOfferedToGuest === "0") {
-                                        p10_3.current.style.border="none";
-                                        p10_3.current.style.borderRadius="4px";
-                                        p10_3.current.style.border="1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else {

@@ -50,7 +50,7 @@ body {
     box-shadow: 3px 3px 7px 5px rgb(201, 201, 201);
 }
 .PopularDestSin img:hover{
-    box-shadow: 0px 30px 18px -8px rgpa(0,0,0,0.1);
+ box-shadow: 0px 30px 18px -8px rgpa(0,0,0,0.1);
   transform: scale(1.05, 1.05);
   }
 .PopularDestSin p {
@@ -67,10 +67,10 @@ body {
     overflow: hidden;
     white-space: nowrap;
 }
-.BestDealsCont :hover {
+/* .BestDealsCont :hover {
     box-shadow: 0px 30px 18px -8px rgpa(0,0,0,0.1);
    transform: scale(1.05, 1.05);
-    }
+    } */
 .BestDealsSin {
     width: calc(33.33% - 40px);
     display: inline-block;
@@ -1195,8 +1195,35 @@ body {
 /* hotel info */
 .hotelInfo1 {
     float: left;
-    width: 90%;
+    width: 78%;
 }
+.signup00 {
+    position: fixed;
+    width: 100%;
+    height: 80vh;
+    backdrop-filter: saturate(180%) blur(10px);
+    background-color: rgba(230, 225, 225, 0.404);
+    top: 0;
+}
+.sign00 {
+    float: left;
+    width: 800px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    height: 450px;
+    background-color: white;
+    margin-top: 50px;
+    font-family: 'circular';
+}
+.hotelInfo01button{
+    margin-top: 25px;
+    padding: 7px 20px;
+    border-radius: 22px;
+    background-color:#0277bd;
+    color: white;
+    cursor: pointer;
+    border: none;
+  }
 
 .hotelInfo1 img {
     float: left;
@@ -1671,8 +1698,13 @@ body {
     max-height: 100%;
     max-width: 100%;
     float: left;
-    padding-left: 50%;
+    padding-left: 80%;
     transform: translateX(-50%);
+}
+.Deleteimg {
+    width: '10%';
+    margin: '-50% 0px 0px 65px'
+
 }
 .HostYourApartment212 label {
     float: left;
@@ -2273,7 +2305,7 @@ body {
     }
     .BestDealsSin img:hover{
      box-shadow: 0px 30px 18px -8px rgpa(0,0,0,0.1);
-      transform: scale(1.05, 1.05);
+      transform: scale(2.05, 2.05);
       }
     .BestSinP3 {
         font-size: 13px;

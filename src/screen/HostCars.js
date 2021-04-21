@@ -14,6 +14,7 @@ import url from '../data/urls.json';
 import pinIcon from '../img/icons/pin.png';
 import d from '../css/carInfo.module.css';
 
+import Delete from "../img/icons/delete.png"
 
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import headerStyle from '../css/headerMain.module.css';
@@ -138,7 +139,7 @@ export default function HostCars(props) {
 
        // image uploading...................................................
 
-    const [selectedImage, setSelectedImage] = useState([]);
+    // const [selectedImage, setSelectedImage] = useState([]);
     const [imageList, setImageList] = useState([]);
     const uploadImageHandler = e => {
 
@@ -163,18 +164,29 @@ export default function HostCars(props) {
             })
             .catch(error => console.log('error', error));
         
-        if (e.target.files) {
-            const fileArray = Array.from(e.target.files).map(file => URL.createObjectURL(file))
-            setSelectedImage(prevImg => prevImg.concat(fileArray))
-            Array.from(e.target.files).map(file => URL.revokeObjectURL(file))
-        }
+        // if (e.target.files) {
+        //     const fileArray = Array.from(e.target.files).map(file => URL.createObjectURL(file))
+        //     setSelectedImage(prevImg => prevImg.concat(fileArray))
+        //     Array.from(e.target.files).map(file => URL.revokeObjectURL(file))
+        // }
     }
-    const renderPhoto = source => {
-        return source.map(photo => {
-            return <div className="uploadedImage"><img src={photo} key={photo} alt="" /></div>
+    const renderPhoto = () => {
+        return imageList.map((photo, keys) => {
+            return ( <>
+            <div className="uploadedImage"><img src={photo} key={keys} alt="" />
+            <img src={Delete} alt="" style={{width: '10%', margin: '-65% 0px 0px 90px'}}
+            onClick={()=> removeElem(keys)}   />
+            </div> </>)
         })
     }
-
+    const  removeElem =(keys) =>{
+        //   alert(VersionId)
+        const newImageList = imageList.filter((curElm, key)=>{
+          return key !== keys;
+        })
+        setImageList(newImageList)
+      }
+// ...................................................................................
     useEffect(() => {
         console.log(imageList);
     }, [imageList]);
@@ -831,7 +843,7 @@ export default function HostCars(props) {
 </label>
                         </div> 
                           <div className="uploadedImageContHostCar">
-                                {renderPhoto(selectedImage)}
+                                {renderPhoto(imageList)}
                             </div>
                         {/* <div className={h.d04}>
                             <label>Select from gallery</label>
@@ -840,7 +852,7 @@ export default function HostCars(props) {
                         <div className={h.d07c}>
                             <button className={h.d07b} onClick={() => {setTab8(false);setTab7(true);}}>Back</button>
                             <button className={h.d07} onClick={() => {
-                                    if (selectedImage.length === 0) {
+                                    if (imageList.length === 0) {
                                         setErrTab2(true);
                                         setInterval(() => setErrTab2(false), errorDisplayTime);
                                     } else {
@@ -882,12 +894,12 @@ export default function HostCars(props) {
                                                    </div>
                         <div className={h.d03}>
                             <select className={h.d031} value={allVar.discountOfferedtToGuests} onChange={e=> setAllVar({...allVar,discountOfferedtToGuests: e.target.value})}>
-                                <option value="0">Discount offeref to guests</option>
-                                <option value="0">0 – 30k miles</option>
-                                <option value="0">30k – 60k miles</option>
-                                <option value="0">60k – 90k miles</option>
-                                <option value="0">90k – 120K miles</option>
-                                <option value="0">120K +</option>
+                                <option value="0">Discount offered to guests</option>
+                                <option value="1">5%</option>
+                                <option value="2">10%</option>
+                                <option value="3">15%</option>
+                                <option value="4">20%</option>
+                                <option value="5">25%</option>
                             </select>
                         </div>
 

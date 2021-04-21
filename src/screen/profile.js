@@ -172,6 +172,10 @@ export default function profile() {
     }
     const [carBookingList, setCarBookingList] = useState(null);
     const activateCarBookingList = () => {
+
+                // const named = (JSON.parse(localStorage.getItem("token")).userId).toString()
+                // console.log(named)
+
         fetch(url.baseUrl+"getListofBookingsCars", {
             method: "POST",
             headers: {
@@ -179,7 +183,7 @@ export default function profile() {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                "userId": JSON.parse(localStorage.getItem("token")).userId
+                "userId":(JSON.parse(localStorage.getItem("token")).userId).toString() 
             })
         })
         .then(res => res.json())
@@ -440,7 +444,7 @@ export default function profile() {
                                                         <th className={ds.d20th1}>No</th>
                                                         <th className={ds.d20th2}>Name</th>
                                                         <th className={ds.d20th3}>Phone No.</th>
-                                                        <th className={ds.d20th4}>Bedrooms</th>
+                                                        <th className={ds.d20th4}>Guest</th>
                                                         <th className={ds.d20th5}>Arrival Date</th>
                                                         <th className={ds.d20th6}>Depart Date</th>
                                                         <th className={ds.d20th7}>Chat</th>
@@ -450,7 +454,7 @@ export default function profile() {
                                                         <tr className={ds.d20tr} key={key}>
                                                             <td className={ds.d20td1}><div style={{float: 'left', paddingTop: 8}}>{key+1}</div></td>
                                                             <td className={ds.d20td2}>
-                                                                <span>{host.customer_name}</span>
+                                                                <span>{host.transactionEmail}</span>
                                                             </td>
                                                             <td className={ds.d20td3}>{host.customer_phone}</td>
                                                             <td className={ds.d20td4}>{host.guests}</td>

@@ -93,10 +93,10 @@ export default function Homes() {
     const [searchWord, setSearchWord] = useState(null);
     const handleAddressDeskOverChange = async value => {
         const result = await geocodeByAddress(value);
-        console.log(result[0].address_components);
+        console.log(result);
         console.log(result[0].address_components[0].long_name);
         setSearchWord(result[0].address_components[0].long_name);
-        setAddress(result[0].address_components[0].long_name);
+        setAddress(result[0].formatted_address);
         // TopBarCall(result[0].address_components[0].long_name);
         setBarTab2(true);
         setBarTab3(false);
@@ -253,8 +253,9 @@ export default function Homes() {
         })
         .then(res => res.json())
         .then(res => {
-            // console.log("main result")
-            // console.log(res.result);
+            console.log("main result")
+            console.log(res.result);
+
             placesNearby(2, val);
             placesNearbyTopBar(2, val);
             if (localStorage.getItem("token") === null) {
@@ -1152,7 +1153,7 @@ export default function Homes() {
                             {barTab2 && (
                                 <div className={headerStyle.topBar01DAte}>
                                     <div className="dateCont01">
-                                    <DateRangePicker
+                                    <DateRange
                                         showSelectionPreview={true}
                                         moveRangeOnFirstSelection={false}
                                         months={2}

@@ -32,11 +32,13 @@ import SignUpBanner from '../img/banners/undraw_mobile_payments_vftl.png';
 import GoogleLogin from 'react-google-login';
 import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props';
 import TwitterLogin from "react-twitter-login";
+import AppleLogin from "apple-signin-auth";
 
 import PinIcon from '../img/icons/blackPin.png';
 import SearchIconWhite from '../img/icons/search.png';
 
 import swal from 'sweetalert';
+
 
 // date
 import { DateRange } from 'react-date-range';
@@ -354,6 +356,7 @@ export default function Header() {
         fetch(url.baseUrl+"socialAuth", requestOptions)
         .then(response => response.json())
         .then(res => {
+            console.log(res);
             if (res.code === 206) {
                 swal("", "Email not found !!!", "error");
                 setSignInPage(false);
@@ -1255,6 +1258,7 @@ export default function Header() {
                                             </button>
                                         )}
                                     />
+                                    
                                 </div>
                             </div>
 

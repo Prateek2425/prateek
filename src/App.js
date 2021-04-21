@@ -32,6 +32,7 @@ import Hindi from './translations/hi.json';
 import MetaTags from 'react-meta-tags';
 import Profiles from "./screen/Profiles";
 import GetReviews from './screen/GetReviews';
+import Examples1 from './screen/Examples1';
 
 function App() {
 
@@ -156,6 +157,10 @@ function App() {
 
             <Route exact path="/Examples">
               <Examples data="krishna" />
+            </Route>
+            
+            <Route exact path="/Examples1">
+              <Examples1 data="krishna" />
             </Route>
             
             <Route exact path="/Profiles">

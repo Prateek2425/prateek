@@ -1,7 +1,7 @@
 import '../css/components.css';
-import v1 from '../img/demo/2.png';
-import v2 from '../img/demo/3.png';
-import v3 from '../img/demo/4.png';
+import v1 from '../img/demo/london.jpg';
+import v2 from '../img/demo/newyork.jpg';
+import v3 from '../img/demo/rome.jpg';
 
 import defaultMgs from '../translations/DefaultMessage';
 import {FormattedMessage} from 'react-intl';
@@ -42,27 +42,27 @@ export default function PopularDestination() {
                         </p>
                     </div>
                     <div  className="PopularDestSin" onClick={() => history.push("/homes", {
-                        searchKey: "Italy",
+                        searchKey: "New York",
                         noAdult: 0,
                         noChild: 0,
                         noInfant: 0
                     })}>
                         <img src={v2} alt="" />
                         <p><FormattedMessage 
-                            id="Italy"
-                            defaultMessage={defaultMgs.Mgs.Italy}
+                            id="New York"
+                            defaultMessage={defaultMgs.Mgs.NewYork}
                         /></p>
                     </div>
                     <div  className="PopularDestSin" onClick={() => history.push("/homes", {
-                        searchKey: "Maldives",
+                        searchKey: "Rome",
                         noAdult: 0,
                         noChild: 0,
                         noInfant: 0
                     })}>
                         <img src={v3} alt="" />
                         <p><FormattedMessage 
-                            id="Maldives"
-                            defaultMessage={defaultMgs.Mgs.Maldives}
+                            id="Rome"
+                            defaultMessage={defaultMgs.Mgs.Rome}
                         /></p>
                     </div>
 

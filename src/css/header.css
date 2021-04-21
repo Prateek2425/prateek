@@ -39,7 +39,7 @@ src: url('../fonts/Segoe UI Bold.woff') format('woff');
     /* background-color: blue; */
 }
 .headBody {
-    background-image: url(../img/banners/bgMain.jpg);
+    background-image: url(../img/banners/bgmain2.jpg);
     background-size: cover;
     background-position: 25%;
     height: 600px;
@@ -191,7 +191,7 @@ hr {
     float: left;
     width: 90%;
     max-width: 1000px;
-    margin-top: 70px;
+    margin-top: 9%;
     margin-left: 50%;
     transform: translateX(-50%);
 }
