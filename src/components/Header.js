@@ -746,10 +746,6 @@ export default function Header() {
                                     <img src={profileIcon} alt="" />
                                     <p>Host your apartment</p>
                                 </div>
-                                <div className="headingMobile0511" onClick={() => history.push("/Account")}>
-                                    <img src={profileIcon} alt="" />
-                                    <p>Profile</p>
-                                </div>
 
                                 <div className="headingMobile0511" onClick={signOutSubmit}>
                                     <img src={profileIcon} alt="" />

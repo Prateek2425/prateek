@@ -50,8 +50,8 @@ body {
     box-shadow: 3px 3px 7px 5px rgb(201, 201, 201);
 }
 .PopularDestSin img:hover{
- box-shadow: 0px 30px 18px -8px rgpa(0,0,0,0.1);
-  transform: scale(1.05, 1.05);
+    box-shadow: 0px 30px 18px -8px rgpa(0,0,0,0.1);
+  transform: scale(1.06, 1.06);
   }
 .PopularDestSin p {
     font-size: 20px;
@@ -695,7 +695,17 @@ body {
     font-size: 19px;
     font-weight: 600;
     margin-left: 15px;
+    cursor: pointer;
 }
+
+.notiread {
+    font-family: calibri;
+    color: rgb(56, 56, 56);
+    font-size: 17px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
 .noti02112 {
     font-family: calibri;
     color: rgb(253, 16, 16);
@@ -1193,6 +1203,7 @@ body {
     width: 100%;
 }
 /* hotel info */
+/* hotel info */
 .hotelInfo1 {
     float: left;
     width: 78%;
@@ -1335,7 +1346,7 @@ body {
     /* background-color: blue; */
     /* margin-left: 50%;
     transform: translateX(-50%); */
-    font-size: 15px;
+    font-size: 13.5px;
     color:#404040;
     margin-top: 10px;
 }
@@ -2303,10 +2314,10 @@ body {
         height: 200px;
         border-radius: 4px 4px 0 0;
     }
-    .BestDealsSin img:hover{
+    /* .BestDealsSin img:hover{
      box-shadow: 0px 30px 18px -8px rgpa(0,0,0,0.1);
       transform: scale(2.05, 2.05);
-      }
+      } */
     .BestSinP3 {
         font-size: 13px;
         font-weight: 600;
@@ -2450,14 +2461,38 @@ body {
         font-family: 'Segoe UI Regular';
         width: 100%;
         margin-top: 10px;
-        font-size: 22px;
         color:rgb(59, 59, 59);
-        font-weight: 600;
-        
+        font-weight: 600;     
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+    } 
+    .placesNearMob121111 {
+        float: left;
+        font-family: 'Segoe UI Regular';
+        width: 100%;
+        margin-top: 1px;    
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: inherit !important;
+        font-size: 1em !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    } 
+     .placesNearMob12110 {
+        float: left;
+        font-family: 'Segoe UI Regular';
+        width: 100%;
+        margin-top: 5px;
+        color:rgb(59, 59, 59);
+        font-weight: 600;    
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-bottom: 5px;
     }
+
     .placesNearMob1212 {
         float: left;
         font-family: 'Segoe UI Regular';
@@ -2644,16 +2679,21 @@ body {
     .hotelInfoMob021 {
         float: left;
         width: 100%;
-        font-size: 21px;
-        font-weight: 600;
-        font-family: 'Segoe UI Regular';
-        
+        font-family: 'Segoe UI Regular';   
         white-space: nowrap;
-        margin-bottom: 20px;
-        margin-top: 15px;
+        margin-bottom: 5px;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: inherit !important;
+        font-size: 1em !important;
+        font-weight: bold !important;
+        line-height: inherit !important;
     }
+   .hotelInfoMob022222{
+
+
+
+   }
     .hotelInfoMob022 {
         float: left;
         width: 50%;
@@ -2673,17 +2713,18 @@ body {
     .hotelInfoMob023 {
         float: left;
         width: 50%;
+        margin-top: 5px;
     }
     .hotelInfoMob023 button {
         float: right;
-        padding: 8px 19px;
+        padding: 5px 10px;
         font-weight: 500;
         font-family: 'Segoe UI Regular';
         font-size: 15px;
         border: none;
         border-radius: 4px;
         outline: none;
-        background-color: blue;
+        background: linear-gradient(to right, #e9023c 0%, #cc0066 100%);
         color: white;
         padding-bottom: 9px;
     }
@@ -2691,13 +2732,15 @@ body {
         float: left;
         font-family: 'Segoe UI Regular';
         width: 100%;
-        margin-top: 20px;
-        text-decoration: underline;
-        
+        margin-top: 10px;     
         white-space: nowrap;
         margin-bottom: 10px;
         overflow: hidden;
         text-overflow: ellipsis;
+        color: inherit !important;
+        font-size: 1em !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
     }
     .hotelInfoMob03 {
         float: left;
@@ -2766,12 +2809,22 @@ body {
         margin-top: 30px;
         font-family: 'Segoe UI Regular';
     }
+    .hotelInfoMob0400 {
+        float: left;
+        width: 95%;
+        margin-top: 2%;
+        font-family: 'Segoe UI Regular';
+        height: 70px;
+        background-color: rgb(255, 255, 255) !important;
+        margin-left: 2%;
+    }
     .hotelInfoMob041 {
         float:left;
         width: 100%;
-        font-size: 21px;
+        font-size: 1em;
         font-weight: 600;
-        margin-bottom: 7px;
+        margin-bottom: 5px;
+        
     }
     .hotelInfoMob042 {
         float:left;
@@ -2881,6 +2934,34 @@ body {
     .carpreviews{
         width: 100%;
     margin-left: 12%;
+    }.deskSearch0N {
+        width: 95%;
+        height: 350px;
+        background-color: white;
+        border-radius: 15px;
+    }
+    .deskSearch0N102 {
+        width: 140px;
+        float: right;
+        margin-top: -20%;
+    }
+    .hotelInfo01button {
+        margin-top: -35px;
+        float: right;
+    }
+    .hotelInfoMob0444 {
+        float: left;
+        width: auto;
+        padding-left: 15px;
+        font-family: 'Segoe UI Regular';
+        background-color: rgb(236, 236, 236);
+        border-radius: 5px;
+
+    }.videoicon{
+        width: 10%;
+        float: right;
+        margin-top: -30px;
+        height: 10%;
     }
  
 }

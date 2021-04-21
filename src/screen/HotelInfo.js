@@ -45,7 +45,7 @@ import swal from 'sweetalert';
 // date
 import { DateRange } from 'react-date-range';
 import ImageSlider from '../components/ImageSlider';
-
+import VideoIcon from "../img/icons/videoicon.png";
 
 
 export default function HotelInfo() {
@@ -645,14 +645,14 @@ export default function HotelInfo() {
 
                                         <div className="signup00" onClick={() => { setTabVideo(false); setTab2(true) }}>
                                             <div className="sign00">
-                
-                                                 
-                                                  <div >  <video width="100%" height="100%" controls autoPlay >
-                                                  <source src={person.video} type="video/mp4" />
-                                                      </video></div>
-                                      
+
+
+                                                <div >  <video width="100%" height="100%" controls autoPlay >
+                                                    <source src={person.video} type="video/mp4" />
+                                                </video></div>
+
                                             </div>
-                                               </div>
+                                        </div>
                                     )}
 
 
@@ -747,47 +747,62 @@ export default function HotelInfo() {
                     <div className="hotelInfoMob0">
 
                         <div className="hotelInfoMob01">
-                            <img src={varimg} alt="" />
+                        <ImageSlider images={person.imageList} />
                         </div>
 
                         <div className="hotelInfoMob02">
-                            <div className="hotelInfoMob021">Name</div>
+                            <div className="hotelInfoMob021">{person.listingTitle}</div>
+                          <div className="videoicon" >
+                           < img src={VideoIcon} alt="" style={{width:"100%", height:"100%"}} />
+                           </div>
 
-                            <div className="hotelInfoMob022">
-                                <div className="hotelInfoMob0221">$ 17/night</div>
-                                <div className="hotelInfoMob0222">* 5.0(34)</div>
-                            </div>
-                            <div className="hotelInfoMob023">
-                                <button>Check Availability</button>
-                            </div>
-
-                            <div className="hotelInfoMob024">Bhopal, Madhya Pradesh, India</div>
-
+                            <div className="hotelInfoMob024">{person.addrStreet}, {person.addrCity}, {person.addrState}</div>
+                            <div className="placesNearMob1212">{person.noOfGuests} guests, {person.noOfBed} beds, {person.baths} bathroom</div>
                             <div className="hotelInfoMob03">
                                 <div className="hotelInfoMob031">
                                     <div className="hotelInfoMob0311">Entire bungalow</div>
-                                    <div className="hotelInfoMob0312"><span>hosted by</span> Krishna kant vishwakarma</div>
+                                    <div className="hotelInfoMob0312"><span>Hosted by</span> {` ${p.name} `}</div>
                                 </div>
                                 <div className="hotelInfoMob032">
-                                    <img src={varimg} alt="" />
+                                    <img src={p.profile_pic} alt="" />
                                 </div>
-                                <button className="hotelInfoMob033">Rents host car</button>
+                                {/* <button className="hotelInfoMob033">Rents host car</button> */}
+                            </div>
+                         
+
+                            
+
+                            <div className="hotelInfoMob0444">
+
+                            <img src={ChatImage} alt="" style={{ width: '18px', float: 'left', marginLeft: '30%' }} />
+
+                                <div className="hotelInfoMob041">Message</div> 
                             </div>
 
-                            <div className="hotelInfoMob04">
+                        
+                    
+                             <div className="hotelInfoMob04">
                                 <div className="hotelInfoMob041">Amenities</div>
-
-                                <div className="hotelInfoMob042">Wifi</div>
-                                <div className="hotelInfoMob042">Parking</div>
+                         {person.amenList.map((val, ind) => <div className="hotelInfo0198" key={ind}>{val}</div>)}
                             </div>
+                          
 
                             <div className="hotelInfoMob04">
                                 <div className="hotelInfoMob041">Some rules</div>
+                         {person.houseRuelsList.map((val, ind) => <div className="hotelInfo0198" key={ind}>{val}</div>)}
 
-                                <div className="hotelInfoMob042">Wifi</div>
-                                <div className="hotelInfoMob042">Parking</div>
                             </div>
                             <Reviews hostingId={id} />
+                            <div className="hotelInfoMob0400">
+                            <div className="hotelInfoMob022">
+                                <div className="hotelInfoMob0221">$ {person.basePrice}/night</div>
+                                <div className="hotelInfoMob0222">* 5.0(34)</div>
+                            </div>
+                            <div className="hotelInfoMob023">
+                                <button >Check Availability</button>
+                            </div>
+                            </div>
+                      
                         </div>
                     </div>
                 </div>

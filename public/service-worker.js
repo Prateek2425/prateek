@@ -43,8 +43,10 @@ self.addEventListener('push', event => {
     self.addEventListener('notificationclick', function (event) {
       // event.notification.close()
 
-      var notificationURL = 'http://13.233.154.141/NewTraveller?id=${data.roomDetails.user}&uname=${data.roomDetails.user_name}&room=${data.roomDetails.room}&pic=${data.roomDetails.user_pic}';
-
+      //var notificationURL = 'http://13.233.154.141/NewTraveller?id=${data.roomDetails.user}&uname=${data.roomDetails.user_name}&room=${data.roomDetails.room}&pic=${data.roomDetails.user_pic}';
+      
+      var notificationURL = 'http://13.233.154.141/notify';
+      console.log("notificationURL",notificationURL);
       event.notification.close();
 
 

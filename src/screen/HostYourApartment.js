@@ -16,9 +16,9 @@ import v6 from '../img/undraw/6.png';
 import v7 from '../img/undraw/7.png';
 import v8 from '../img/undraw/8.png';
 import url from '../data/urls.json';
-import PlacesAutocomplete, { geocodeByAddress, getLatLng} from 'react-places-autocomplete';
-import {GoogleMap, Marker} from '@react-google-maps/api';
-import {useCallback, useEffect, useRef, useState} from 'react';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
+import { GoogleMap, Marker } from '@react-google-maps/api';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import currencyName from '../data/currencyName.json';
 import { useHistory } from 'react-router-dom';
 import Switch from "react-switch";
@@ -48,11 +48,14 @@ const option = {
 // //   const ReactS3Client = new S3(config);
 
 export default function HostYourApartment() {
-    const [imagetab2, setImageTab2]=useState(false)
-    const [imagetab1, setImageTab1]=useState(true)
+
+    const [tabVideo, setTabVideo] = useState(false)
+    const [tab22, setTab22] = useState(true)
+    const [imagetab2, setImageTab2] = useState(false)
+    const [imagetab1, setImageTab1] = useState(true)
 
     const [mainLoad, setmainLoad] = useState(false);
-    
+
     const [docStatus, setDocStatus] = useState(null);
     useEffect(() => {
         if (localStorage.getItem("token") === null) {
@@ -62,30 +65,30 @@ export default function HostYourApartment() {
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             var requestOptions = {
-              method: 'GET',
-              headers: myHeaders,
-              redirect: 'follow'
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow'
             };
-            fetch(`${url.baseUrl}isDocVerified/`+JSON.parse(localStorage.getItem("token")).userId, requestOptions)
-            .then(response => response.json())
-            .then(res => {
-                console.log(res);
-                console.log(res.data[0].isDocVerified);
-                if (res.data[0].isDocVerified === 0) {
-                    setDocStatus(res.data[0].isDocVerified);
-                } else if (res.data[0].isDocVerified === 1) {
-                    setDocStatus(res.data[0].isDocVerified);
-                } else if (res.data[0].isDocVerified === 2) {
-                    swal("Your profile is pending verification", "Please wait while Your profile is verify !!!", "error");
-                    history.push('/');
-                } else if (res.data[0].isDocVerified === 4) {
-                    swal("Your profile is rejected", "Please contact with our support !!!", "error");
-                    alert("Rejected !!!")
-                    history.push('/');
-                }
-                setmainLoad(false);
-            })
-            .catch(error => console.log('error', error));
+            fetch(`${url.baseUrl}isDocVerified/` + JSON.parse(localStorage.getItem("token")).userId, requestOptions)
+                .then(response => response.json())
+                .then(res => {
+                    console.log(res);
+                    console.log(res.data[0].isDocVerified);
+                    if (res.data[0].isDocVerified === 0) {
+                        setDocStatus(res.data[0].isDocVerified);
+                    } else if (res.data[0].isDocVerified === 1) {
+                        setDocStatus(res.data[0].isDocVerified);
+                    } else if (res.data[0].isDocVerified === 2) {
+                        swal("Your profile is pending verification", "Please wait while Your profile is verify !!!", "error");
+                        history.push('/');
+                    } else if (res.data[0].isDocVerified === 4) {
+                        swal("Your profile is rejected", "Please contact with our support !!!", "error");
+                        alert("Rejected !!!")
+                        history.push('/');
+                    }
+                    setmainLoad(false);
+                })
+                .catch(error => console.log('error', error));
         }
     }, []);
 
@@ -114,6 +117,8 @@ export default function HostYourApartment() {
     const [errTab4, setErrTab4] = useState(false);
     const [errTab5, setErrTab5] = useState(false);
     const [errTab6, setErrTab6] = useState(false);
+    const [errTab7, setErrTab7] = useState(false);
+
     const errorDisplayTime = 4000;
 
     // res
@@ -152,7 +157,7 @@ export default function HostYourApartment() {
     //     console.log(fileInput.current);
     //     let file = fileInput.current.files[0];
     //     setvideoUploading(true);
-        
+
     //     uploadFile(file, config)
     //         .then(res => {
     //             updateVideoList([...videoList, res.location]);
@@ -208,43 +213,43 @@ export default function HostYourApartment() {
                 </div> </>)
         })
     }
-        
-        const  removeElems =(index) =>{
-            const newVideoList = videoList.filter((curElm, key)=>{
-              return key !== index;
-            })
-            setVideoList(newVideoList)
-          }
 
-// ..............................................................................................
+    const removeElems = (index) => {
+        const newVideoList = videoList.filter((curElm, key) => {
+            return key !== index;
+        })
+        setVideoList(newVideoList)
+    }
+
+    // ..............................................................................................
     const [imageList, setImageList] = useState([]);
     // const [selectedImage, setSelectedImage] = useState([]);
     const uploadImageHandler = e => {
 
         var formdata = new FormData();
-        
-        for(var  j = 0; j < e.target.files.length; j++) {
+
+        for (var j = 0; j < e.target.files.length; j++) {
             formdata.append("file", e.target.files[j], e.target.files[j].name);
         }
 
         var requestOptions = {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow'
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
         };
         console.log("falg1")
         fetch(`${url.baseUrl}/upload`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            console.log("falg2")
-            console.log(result.Data)
-            var imageLink = result.Data;
-            console.log(result.Data)
-            imageLink.map(val => setImageList(prevImg => prevImg.concat(val.Location)));
-        })
-        .catch(error => console.log('error', error));
-        
-    
+            .then(response => response.json())
+            .then(result => {
+                console.log("falg2")
+                console.log(result.Data)
+                var imageLink = result.Data;
+                console.log(result.Data)
+                imageLink.map(val => setImageList(prevImg => prevImg.concat(val.Location)));
+            })
+            .catch(error => console.log('error', error));
+
+
         // if (e.target.files) {
         //     const fileArray = Array.from(e.target.files).map(file => URL.createObjectURL(file))
         //     setSelectedImage(prevImg => prevImg.concat(fileArray))
@@ -254,20 +259,20 @@ export default function HostYourApartment() {
     }
     const renderPhoto = () => {
         return imageList.map((photo, keys) => {
-            return ( <>
-            <div className="uploadedImage"><img src={photo} key={keys} alt="" />
-            <img src={Delete} alt="" style={{width: '10%', margin: '-75% 0px 0px 70px'}}
-            onClick={()=> removeElem(keys)}   />
-            </div> </>)
+            return (<>
+                <div className="uploadedImage"><img src={photo} key={keys} alt="" />
+                    <img src={Delete} alt="" style={{ width: '10%', margin: '-75% 0px 0px 70px' }}
+                        onClick={() => removeElem(keys)} />
+                </div> </>)
         })
     }
-    const  removeElem =(keys) =>{
+    const removeElem = (keys) => {
         //   alert(VersionId)
-        const newImageList = imageList.filter((curElm, key)=>{
-          return key !== keys;
+        const newImageList = imageList.filter((curElm, key) => {
+            return key !== keys;
         })
         setImageList(newImageList)
-      }
+    }
     // ...................................................................................... 
 
     // image government id
@@ -285,12 +290,12 @@ export default function HostYourApartment() {
         };
 
         fetch(`${url.baseUrl}/upload`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            setImageGovList(result.Data[0].Location)
-        })
-        .catch(error => console.log('error', error));
-    
+            .then(response => response.json())
+            .then(result => {
+                setImageGovList(result.Data[0].Location)
+            })
+            .catch(error => console.log('error', error));
+
         if (e.target.files[0]) {
             setSelectedGovImage(URL.createObjectURL(e.target.files[0]))
             Array.from(e.target.files).map(file => URL.revokeObjectURL(file))
@@ -306,19 +311,19 @@ export default function HostYourApartment() {
         formdata.append("file", e.target.files[0], e.target.files[0].name)
 
         var requestOptions = {
-        method: 'POST',
-        body: formdata,
-        redirect: 'follow'
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
         };
 
         fetch(`${url.baseUrl}/upload`, requestOptions)
-        .then(response => response.json())
-        .then(result => {
-            setImageFaceList(result.Data[0].Location)
-        })
-        .catch(error => console.log('error', error));
-        
-    
+            .then(response => response.json())
+            .then(result => {
+                setImageFaceList(result.Data[0].Location)
+            })
+            .catch(error => console.log('error', error));
+
+
         if (e.target.files[0]) {
             setSelectedFaceImage(URL.createObjectURL(e.target.files[0]))
             Array.from(e.target.files).map(file => URL.revokeObjectURL(file))
@@ -421,50 +426,50 @@ export default function HostYourApartment() {
     }, [allVar]);
 
     const handleSelect = async address => {
-        
+
         const result = await geocodeByAddress(address);
         console.log(result[0].formatted_address);
         const placeArr = result[0].formatted_address.split(/\s/).join('').replace(/[0-9]/g, '').split(",");
         console.log(placeArr);
-        if (placeArr.length >=  3 ) {
+        if (placeArr.length >= 3) {
             setAllVar({
-                ...allVar, 
-                countryName: placeArr[placeArr.length-1],
-                addrState: placeArr[placeArr.length-2],
-                addrCity: placeArr[placeArr.length-3]
+                ...allVar,
+                countryName: placeArr[placeArr.length - 1],
+                addrState: placeArr[placeArr.length - 2],
+                addrCity: placeArr[placeArr.length - 3]
             });
         } else if (placeArr.length === 2) {
             setAllVar({
-                ...allVar, 
-                countryName: placeArr[placeArr.length-1],
-                addrState: placeArr[placeArr.length-2]
+                ...allVar,
+                countryName: placeArr[placeArr.length - 1],
+                addrState: placeArr[placeArr.length - 2]
             });
         } else if (placeArr.length === 1) {
-            setAllVar({...allVar, countryName: placeArr[placeArr.length-1]});
+            setAllVar({ ...allVar, countryName: placeArr[placeArr.length - 1] });
         }
-        
+
         setAddress(address);
         geocodeByAddress(address)
-        .then(results => getLatLng(results[0]))
-        .then(latLng => {
-            setCenter({
-                lat: latLng.lat,
-                lng: latLng.lng
-            });
-            console.log('Success', latLng);
-        })
-        .catch(error => console.error('Error', error));
+            .then(results => getLatLng(results[0]))
+            .then(latLng => {
+                setCenter({
+                    lat: latLng.lat,
+                    lng: latLng.lng
+                });
+                console.log('Success', latLng);
+            })
+            .catch(error => console.error('Error', error));
     };
 
     const [stateRule1, setStateRule1] = useState({ checked: false });
     const [stateRule2, setStateRule2] = useState({ checked: false });
     const [stateRule3, setStateRule3] = useState({ checked: false });
     const [stateRule4, setStateRule4] = useState({ checked: false });
-    
+
     const handleChangeRule1 = checked => {
         setStateRule1({ checked });
-        console.log("Switch: "+checked);
-        console.log("rule : "+stateRule1);
+        console.log("Switch: " + checked);
+        console.log("rule : " + stateRule1);
     }
     const handleChangeRule2 = checked => {
         setStateRule2({ checked });
@@ -593,56 +598,56 @@ export default function HostYourApartment() {
 
         // "forGuestOnly": allVar.forGuestOnly,
         var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: JSON.stringify({
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify({
 
-            "userId": JSON.parse(localStorage.getItem("token")).userId,
-            "countryName":allVar.countryName,
-            "typeOfPropert":allVar.typeOfProperty,
-            "whatGuestBook":allVar.whatGuestBook,
-            "bedrooms":allVar.bedRooms,
-            "noOfBed":allVar.noOfBeds,
-            "bedType":allVar.bedType,
-            "baths":allVar.baths,
-            "noOfGuests":allVar.noOfGuests,
-            "listingTitle":allVar.listingTitle,
-            "listingDescription":allVar.listingDescription,
-            "amenList":amenList,
-            "houseRuelsList":houseRulesList,
-            "imageList":imageList,
-            "additionalHouseRules":allVar.additionalHouseRules,
-            "specificDetails":allVar.specifiecDetailsForGuests,
-            "noticeBeforeGuestArrival":allVar.noticeBeforeGuestArrial,
-            "BookingAvailablity":allVar.BookingAvailability,
-            "arriveBefore":allVar.arriveBefore,
-            "arriveAfter":allVar.arriveAfter,
-            "leaveBefore":allVar.leaveBefore,
-            "minStayInNight":allVar.minStayInNight,
-            "maxStayInNight":allVar.maxStayInNight,
-            "currencyType":allVar.currency,
-            "basePrice":allVar.basePrice,
-            "discount":allVar.discountOfferedToGuest,
-            
-            "govermentId":"n",
-            "profilePic":"1",
-            "addrHouseNumber":allVar.addrHouseNumber,
-            "addrStreet":allVar.addrStreet,
-            "addrCity":allVar.addrCity,
-            "addrState":allVar.addrState,
+                "userId": JSON.parse(localStorage.getItem("token")).userId,
+                "countryName": allVar.countryName,
+                "typeOfPropert": allVar.typeOfProperty,
+                "whatGuestBook": allVar.whatGuestBook,
+                "bedrooms": allVar.bedRooms,
+                "noOfBed": allVar.noOfBeds,
+                "bedType": allVar.bedType,
+                "baths": allVar.baths,
+                "noOfGuests": allVar.noOfGuests,
+                "listingTitle": allVar.listingTitle,
+                "listingDescription": allVar.listingDescription,
+                "amenList": amenList,
+                "houseRuelsList": houseRulesList,
+                "imageList": imageList,
+                "additionalHouseRules": allVar.additionalHouseRules,
+                "specificDetails": allVar.specifiecDetailsForGuests,
+                "noticeBeforeGuestArrival": allVar.noticeBeforeGuestArrial,
+                "BookingAvailablity": allVar.BookingAvailability,
+                "arriveBefore": allVar.arriveBefore,
+                "arriveAfter": allVar.arriveAfter,
+                "leaveBefore": allVar.leaveBefore,
+                "minStayInNight": allVar.minStayInNight,
+                "maxStayInNight": allVar.maxStayInNight,
+                "currencyType": allVar.currency,
+                "basePrice": allVar.basePrice,
+                "discount": allVar.discountOfferedToGuest,
 
-            "lat": markers[0].lat,
-            "lng": markers[0].lng,
-            "forGuestOnly": "",
-            "video": videoList
-        }),
-        redirect: 'follow'
+                "govermentId": "n",
+                "profilePic": "1",
+                "addrHouseNumber": allVar.addrHouseNumber,
+                "addrStreet": allVar.addrStreet,
+                "addrCity": allVar.addrCity,
+                "addrState": allVar.addrState,
+
+                "lat": markers[0].lat,
+                "lng": markers[0].lng,
+                "forGuestOnly": "",
+                "video": videoList
+            }),
+            redirect: 'follow'
         };
 
-        fetch(url.baseUrl+ "host", requestOptions)
-        .then(response => response.json())
-        .then(result => history.push("/hotelInfo/"+result.id))
-        .catch(error => console.log(error));
+        fetch(url.baseUrl + "host", requestOptions)
+            .then(response => response.json())
+            .then(result => history.push("/hotelInfo/" + result.id))
+            .catch(error => console.log(error));
     }
 
     // currency setup
@@ -654,30 +659,30 @@ export default function HostYourApartment() {
         }
     }
     let history = useHistory();
-    return(
+    return (
 
         <>
 
             {/* tab root */}
             {tab0 && (
-                
+
                 <div className="HostYourApartment0M">
-                    
+
                     <div className="headerMinCont">
-                    
-                            <div className={headerStyle.headUpNavMain1} onClick={() => history.goBack()}><img src={rightArrowIcon} alt="" /></div>
-                    
+
+                        <div className={headerStyle.headUpNavMain1} onClick={() => history.goBack()}><img src={rightArrowIcon} alt="" /></div>
+
                     </div>
 
                     <div className="HostYourApartment2First">
                         <div className="HostYourApartment2E1">
                             <div className="HostYourApartment21">
-                                
+
                                 <div>Hi, {JSON.parse(localStorage.getItem("token")).userName}</div>
                                 <h1>Ready to host?</h1>
 
-                                <p style={{width: "80%", fontSize: "13px", marginTop: "30px"}}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
-                                
+                                <p style={{ width: "80%", fontSize: "13px", marginTop: "30px" }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.</p>
+
                                 <button onClick={() => {
                                     setTab0(false);
                                     setTab1(true);
@@ -694,11 +699,11 @@ export default function HostYourApartment() {
 
             {/* tab 1 */}
             {tab1 && (
-                
+
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 1: Start with the basics</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '6.66%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '6.66%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -710,21 +715,21 @@ export default function HostYourApartment() {
 
                                     <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect} >
                                         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                                        <div className="HostYourApartment21Map11">
-                                            <input {...getInputProps({placeholder: "Search ..."})} ref={p11} />
+                                            <div className="HostYourApartment21Map11">
+                                                <input {...getInputProps({ placeholder: "Search ..." })} ref={p11} />
 
-                                            <div className="HostYourApartment21Map111">
-                                                {loading ? <div>Loading ... </div> : null}
+                                                <div className="HostYourApartment21Map111">
+                                                    {loading ? <div>Loading ... </div> : null}
 
-                                                {suggestions.map((suggestion, key) => {
-                                                    const style = {
-                                                        backgroundColor: suggestion.active ? "#e5e5e5" : "#fff"
-                                                    };
+                                                    {suggestions.map((suggestion, key) => {
+                                                        const style = {
+                                                            backgroundColor: suggestion.active ? "#e5e5e5" : "#fff"
+                                                        };
 
-                                                    return <div  className="HostYourApartment21Map1111" {...getSuggestionItemProps(suggestion, {style})} key={key}>{suggestion.description}</div>
-                                                })}    
+                                                        return <div className="HostYourApartment21Map1111" {...getSuggestionItemProps(suggestion, { style })} key={key}>{suggestion.description}</div>
+                                                    })}
+                                                </div>
                                             </div>
-                                        </div>
                                         )}
                                     </PlacesAutocomplete>
 
@@ -732,7 +737,7 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Type of property</div>
-                                    <select ref={p12} value={allVar.typeOfProperty} onChange={e => setAllVar({...allVar, typeOfProperty: e.target.value})}>
+                                    <select ref={p12} value={allVar.typeOfProperty} onChange={e => setAllVar({ ...allVar, typeOfProperty: e.target.value })}>
                                         <option value="0">Select type of property</option>
                                         <option value="Guest house">Guest house</option>
                                         <option value="Apartment">Apartment</option>
@@ -773,7 +778,7 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">What guests book</div>
-                                    <select ref={p13} value={allVar.whatGuestBook} onChange={e => setAllVar({...allVar, whatGuestBook: e.target.value})}>
+                                    <select ref={p13} value={allVar.whatGuestBook} onChange={e => setAllVar({ ...allVar, whatGuestBook: e.target.value })}>
                                         <option value="0">Select what guests book</option>
                                         <option value="Shared Spaces">Shared Spaces</option>
                                         <option value="Entire place">Entire place</option>
@@ -783,7 +788,7 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">For guests only?</div>
-                                    <select ref={p14} value={allVar.forGuestOnly} onChange={e => setAllVar({...allVar, forGuestOnly: e.target.value})}>
+                                    <select ref={p14} value={allVar.forGuestOnly} onChange={e => setAllVar({ ...allVar, forGuestOnly: e.target.value })}>
                                         <option value="0">Select the option</option>
                                         <option value="Yes, it's primarily set up for guests">Yes, it's primarily set up for guests</option>
                                         <option value="No, I keep my personal belongings here">No, I keep my personal belongings here</option>
@@ -794,33 +799,33 @@ export default function HostYourApartment() {
                             <div className="HostYourApartment22">
                                 <button className="HostYourApartment221" disabled>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    p11.current.style.border="none";
-                                    p11.current.style.borderRadius="40px";
-                                    p12.current.style.border="none";
-                                    p12.current.style.borderBottom="1px solid #e1e1e1";
-                                    p13.current.style.border="none";
-                                    p13.current.style.borderBottom="1px solid #e1e1e1";
-                                    p14.current.style.border="none";
-                                    p14.current.style.borderBottom="1px solid #e1e1e1";
+                                    p11.current.style.border = "none";
+                                    p11.current.style.borderRadius = "40px";
+                                    p12.current.style.border = "none";
+                                    p12.current.style.borderBottom = "1px solid #e1e1e1";
+                                    p13.current.style.border = "none";
+                                    p13.current.style.borderBottom = "1px solid #e1e1e1";
+                                    p14.current.style.border = "none";
+                                    p14.current.style.borderBottom = "1px solid #e1e1e1";
                                     if (p11.current.value === "") {
-                                        p11.current.style.border="1px solid red";
-                                        p11.current.style.borderRadius="40px";
+                                        p11.current.style.border = "1px solid red";
+                                        p11.current.style.borderRadius = "40px";
                                         p11.current.focus();
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else if (allVar.typeOfProperty === "0") {
-                                        p12.current.style.border="1px solid red";
-                                        p12.current.style.borderRadius="4px";
+                                        p12.current.style.border = "1px solid red";
+                                        p12.current.style.borderRadius = "4px";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else if (allVar.whatGuestBook === "0") {
-                                        p13.current.style.border="1px solid red";
-                                        p13.current.style.borderRadius="4px";
+                                        p13.current.style.border = "1px solid red";
+                                        p13.current.style.borderRadius = "4px";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else if (allVar.forGuestOnly === "0") {
-                                        p14.current.style.border="1px solid red";
-                                        p14.current.style.borderRadius="4px";
+                                        p14.current.style.border = "1px solid red";
+                                        p14.current.style.borderRadius = "4px";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else {
@@ -849,7 +854,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 2: Some room informations</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '13.32%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '13.32%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -858,7 +863,7 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Bedrooms</div>
-                                    <select ref={p21} value={allVar.bedRooms} onChange={e => setAllVar({...allVar, bedRooms: e.target.value})}>
+                                    <select ref={p21} value={allVar.bedRooms} onChange={e => setAllVar({ ...allVar, bedRooms: e.target.value })}>
                                         <option value="0">0</option>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
@@ -874,7 +879,7 @@ export default function HostYourApartment() {
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">No. of beds</div>
-                                    <select value={allVar.noOfBeds} onChange={e => setAllVar({...allVar, noOfBeds: e.target.value})}>
+                                    <select value={allVar.noOfBeds} onChange={e => setAllVar({ ...allVar, noOfBeds: e.target.value })}>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -900,7 +905,7 @@ export default function HostYourApartment() {
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Bed type</div>
-                                    <select value={allVar.bedType} onChange={e => setAllVar({...allVar, bedType: e.target.value})}>
+                                    <select value={allVar.bedType} onChange={e => setAllVar({ ...allVar, bedType: e.target.value })}>
                                         <option value="Single">Single</option>
                                         <option value="Double">Double</option>
                                         <option value="King">King</option>
@@ -918,7 +923,7 @@ export default function HostYourApartment() {
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Baths</div>
-                                    <select value={allVar.baths} onChange={e => setAllVar({...allVar, baths: e.target.value})}>
+                                    <select value={allVar.baths} onChange={e => setAllVar({ ...allVar, baths: e.target.value })}>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -933,7 +938,7 @@ export default function HostYourApartment() {
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">No. of guests</div>
-                                    <select value={allVar.noOfGuests} onChange={e => setAllVar({...allVar, noOfGuests: e.target.value})}>
+                                    <select value={allVar.noOfGuests} onChange={e => setAllVar({ ...allVar, noOfGuests: e.target.value })}>
                                         <option value="1">1</option>
                                         <option value="2">2</option>
                                         <option value="3">3</option>
@@ -965,11 +970,11 @@ export default function HostYourApartment() {
                                     setTab1(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    p21.current.style.border="none";
-                                    p21.current.style.borderBottom="1px solid #e1e1e1";
+                                    p21.current.style.border = "none";
+                                    p21.current.style.borderBottom = "1px solid #e1e1e1";
                                     if (allVar.bedRooms === "0") {
-                                        p21.current.style.border="1px solid red";
-                                        p21.current.style.borderRadius="4px";
+                                        p21.current.style.border = "1px solid red";
+                                        p21.current.style.borderRadius = "4px";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else {
@@ -996,7 +1001,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 3: Familiar your spaces</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '19.98%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '19.98%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1005,12 +1010,12 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Listing title</div>
-                                    <input ref={p32} type="text" placeholder="Enter the title ..." value={allVar.listingTitle} onChange={e => setAllVar({...allVar, listingTitle: e.target.value})} />
+                                    <input ref={p32} type="text" placeholder="Enter the title ..." value={allVar.listingTitle} onChange={e => setAllVar({ ...allVar, listingTitle: e.target.value })} />
                                 </div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Listing description (Optional)</div>
-                                    <textarea placeholder="Enter the description ..." value={allVar.listingDescription} onChange={e => setAllVar({...allVar, listingDescription: e.target.value})} ></textarea>
+                                    <textarea placeholder="Enter the description ..." value={allVar.listingDescription} onChange={e => setAllVar({ ...allVar, listingDescription: e.target.value })} ></textarea>
                                 </div>
 
                             </div>
@@ -1020,9 +1025,9 @@ export default function HostYourApartment() {
                                     setTab2(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    p32.current.style.border="1px solid #e1e1e1";
+                                    p32.current.style.border = "1px solid #e1e1e1";
                                     if (allVar.listingTitle === "") {
-                                        p32.current.style.border="1px solid red";
+                                        p32.current.style.border = "1px solid red";
                                         p32.current.focus();
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
@@ -1045,7 +1050,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 4: Select amenities</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '26.64%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '26.64%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1054,110 +1059,110 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Essentials (Towels, bed sheets, soap, toilet paper, pillows etc.)</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenEssentials} onChange={e => setAllVar({...allVar, amenEssentials: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenEssentials} onChange={e => setAllVar({ ...allVar, amenEssentials: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Wifi</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenWifi} onChange={e => setAllVar({...allVar, amenWifi: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenWifi} onChange={e => setAllVar({ ...allVar, amenWifi: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Laptop friendly workspace</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenLapFriendlyWorkSpace} onChange={e => setAllVar({...allVar, amenLapFriendlyWorkSpace: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenLapFriendlyWorkSpace} onChange={e => setAllVar({ ...allVar, amenLapFriendlyWorkSpace: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">TV</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenTV} onChange={e => setAllVar({...allVar, amenTV: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenTV} onChange={e => setAllVar({ ...allVar, amenTV: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Kitchen</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenKitchen} onChange={e => setAllVar({...allVar, amenKitchen: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenKitchen} onChange={e => setAllVar({ ...allVar, amenKitchen: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Free parking</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenParking} onChange={e => setAllVar({...allVar, amenParking: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenParking} onChange={e => setAllVar({ ...allVar, amenParking: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Hot water</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHotWater} onChange={e => setAllVar({...allVar, amenHotWater: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHotWater} onChange={e => setAllVar({ ...allVar, amenHotWater: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Heating</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHeating} onChange={e => setAllVar({...allVar, amenHeating: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHeating} onChange={e => setAllVar({ ...allVar, amenHeating: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Air conditioning</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenAirConditioner} onChange={e => setAllVar({...allVar, amenAirConditioner: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenAirConditioner} onChange={e => setAllVar({ ...allVar, amenAirConditioner: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Gym</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenGym} onChange={e => setAllVar({...allVar, amenGym: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenGym} onChange={e => setAllVar({ ...allVar, amenGym: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Elevator</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenElevator} onChange={e => setAllVar({...allVar, amenElevator: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenElevator} onChange={e => setAllVar({ ...allVar, amenElevator: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Indoor fire place</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenIndoorFirePlace} onChange={e => setAllVar({...allVar, amenIndoorFirePlace: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenIndoorFirePlace} onChange={e => setAllVar({ ...allVar, amenIndoorFirePlace: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Hangers</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHangers} onChange={e => setAllVar({...allVar, amenHangers: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHangers} onChange={e => setAllVar({ ...allVar, amenHangers: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Pool</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenPool} onChange={e => setAllVar({...allVar, amenPool: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenPool} onChange={e => setAllVar({ ...allVar, amenPool: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Hot tub</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHotTab} onChange={e => setAllVar({...allVar, amenHotTab: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHotTab} onChange={e => setAllVar({ ...allVar, amenHotTab: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Washer</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenWasher} onChange={e => setAllVar({...allVar, amenWasher: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenWasher} onChange={e => setAllVar({ ...allVar, amenWasher: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Dryer</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenDryer} onChange={e => setAllVar({...allVar, amenDryer: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenDryer} onChange={e => setAllVar({ ...allVar, amenDryer: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Shampoo</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenShampoo} onChange={e => setAllVar({...allVar, amenShampoo: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenShampoo} onChange={e => setAllVar({ ...allVar, amenShampoo: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Hair Dryer</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHairDryer} onChange={e => setAllVar({...allVar, amenHairDryer: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenHairDryer} onChange={e => setAllVar({ ...allVar, amenHairDryer: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Breakfast</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenBreakfast} onChange={e => setAllVar({...allVar, amenBreakfast: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenBreakfast} onChange={e => setAllVar({ ...allVar, amenBreakfast: e.target.checked })} /></div>
                                 </div>
 
-                                <div className="HostYourApartment211" style={{marginTop: "30px"}}>Important Amenities</div>
+                                <div className="HostYourApartment211" style={{ marginTop: "30px" }}>Important Amenities</div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Safety and Privacy</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenSafetyAndPrivacy} onChange={e => setAllVar({...allVar, amenSafetyAndPrivacy: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenSafetyAndPrivacy} onChange={e => setAllVar({ ...allVar, amenSafetyAndPrivacy: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Smoke detector</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenSmokeDetector} onChange={e => setAllVar({...allVar, amenSmokeDetector: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenSmokeDetector} onChange={e => setAllVar({ ...allVar, amenSmokeDetector: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Carbon monoxide detector</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenCarbonMonoxide} onChange={e => setAllVar({...allVar, amenCarbonMonoxide: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenCarbonMonoxide} onChange={e => setAllVar({ ...allVar, amenCarbonMonoxide: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">First aid kit</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenFirstAidKit} onChange={e => setAllVar({...allVar, amenFirstAidKit: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenFirstAidKit} onChange={e => setAllVar({ ...allVar, amenFirstAidKit: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Fire extinguisher</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenFireExtinguisher} onChange={e => setAllVar({...allVar, amenFireExtinguisher: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenFireExtinguisher} onChange={e => setAllVar({ ...allVar, amenFireExtinguisher: e.target.checked })} /></div>
                                 </div>
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Private entrance</div>
-                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenPrivateEntrance} onChange={e => setAllVar({...allVar, amenPrivateEntrance: e.target.checked})} /></div>
+                                    <div className="HostYourApartment2122"><input type="checkbox" checked={allVar.amenPrivateEntrance} onChange={e => setAllVar({ ...allVar, amenPrivateEntrance: e.target.checked })} /></div>
                                 </div>
 
                             </div>
@@ -1192,15 +1197,15 @@ export default function HostYourApartment() {
             {/* tab 5 */}
             {tab5 && (
                 <div className="HostYourApartment0M">
-                    <div className="HostYourApartment0" style={{fontSize: "14px"}}>Step 5: Describe your house using photos</div>
+                    <div className="HostYourApartment0" style={{ fontSize: "14px" }}>Step 5: Describe your house using photos</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '33.33%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '33.33%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
                             <div className="HostYourApartment21">
                                 <div className="HostYourApartment211">Photos and Video</div>
-                                <input type="file" id="file" accept="image/jpg, image/jpeg, image/png" onChange={e => uploadImageHandler(e)} multiple style={{display: "none"}} />
+                                <input type="file" id="file" accept="image/jpg, image/jpeg, image/png" onChange={e => uploadImageHandler(e)} multiple style={{ display: "none" }} />
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Share photos and a short video of your listing with guests.</div>
@@ -1237,40 +1242,41 @@ export default function HostYourApartment() {
             )}
 
             {/* tab 6 */}
-               {tab6 && (
+            {tab6 && (
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 6: Add photos</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '39.96%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '39.96%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
                             <div className="HostYourApartment21">
 
-                                <input type="file" id="file"   accept="video/*" onChange={e => handleClickUploadImage(e)} multiple style={{ display: "none" }} />
+                                <input type="file" id="file" accept="video/*" onChange={e => handleClickUploadImage(e)} multiple style={{ display: "none" }} />
 
                                 <div className="HostYourApartment212">
-                                    <div className="HostYourApartment2121">Share a short video of your listing with guests.</div>
+                                    <div className="HostYourApartment2121">Share a short video of your listing with guests (video should not be more than one minute).</div>
                                     <label htmlFor="file">Upload Video</label>
-                                </div> 
+                                </div>
                                 {/* {videoList.length > 0 ? (<div>t<div>) : (<div>f</div>)} */}
-                                 <div className="uploadedImageCont">
+                                <div className="uploadedImageCont">
                                     {renderVideo(videoList)}
                                 </div>
-                              </div>
+                            </div>
                             <div className="HostYourApartment22">
                                 <button className="HostYourApartment221" onClick={() => {
                                     setTab6(false);
                                     setTab5(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                   if (videoList.length === 0) {
-                                    setErrTab2(true);
-                                    setInterval(() => setErrTab2(false), errorDisplayTime);
-                                } else {
-                                  setTab6(false);
-                                    setTab7(true);
-                                  }  }}>Continue to listing</button>
+                                    if (videoList.length === 0) {
+                                        setErrTab7(true);
+                                        setInterval(() => setErrTab7(false), errorDisplayTime);
+                                    } else {
+                                        setTab6(false);
+                                        setTab7(true);
+                                    }
+                                }}>Continue to listing</button>
                             </div>
                         </div>
                         <div className="HostYourApartment2E2">
@@ -1278,14 +1284,14 @@ export default function HostYourApartment() {
                         </div>
                     </div>
                 </div>
-            )}                      
+            )}
 
             {/* tab 7 */}
             {tab7 && (
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 7: Some house rules</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '46.62%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '46.62%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1295,72 +1301,72 @@ export default function HostYourApartment() {
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Suitable for kids (1-12)</div>
                                     <div className="HostYourApartment2122">
-                                    <Switch 
-                                        onChange={handleChangeRule1} 
-                                        checked={stateRule1.checked}
-                                        onColor="#86d3ff"
-                                        onHandleColor="#2693e6"
-                                        handleDiameter={20}
-                                        uncheckedIcon={false}
-                                        checkedIcon={false}
-                                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                                        height={15}
-                                        width={30} />
+                                        <Switch
+                                            onChange={handleChangeRule1}
+                                            checked={stateRule1.checked}
+                                            onColor="#86d3ff"
+                                            onHandleColor="#2693e6"
+                                            handleDiameter={20}
+                                            uncheckedIcon={false}
+                                            checkedIcon={false}
+                                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                            height={15}
+                                            width={30} />
                                     </div>
                                 </div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Pets allowed</div>
                                     <div className="HostYourApartment2122">
-                                    <Switch 
-                                        onChange={handleChangeRule2} 
-                                        checked={stateRule2.checked}
-                                        onColor="#86d3ff"
-                                        onHandleColor="#2693e6"
-                                        handleDiameter={20}
-                                        uncheckedIcon={false}
-                                        checkedIcon={false}
-                                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                                        height={15}
-                                        width={30} />
+                                        <Switch
+                                            onChange={handleChangeRule2}
+                                            checked={stateRule2.checked}
+                                            onColor="#86d3ff"
+                                            onHandleColor="#2693e6"
+                                            handleDiameter={20}
+                                            uncheckedIcon={false}
+                                            checkedIcon={false}
+                                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                            height={15}
+                                            width={30} />
                                     </div>
                                 </div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Smoking allowed</div>
                                     <div className="HostYourApartment2122">
-                                    <Switch 
-                                        onChange={handleChangeRule3} 
-                                        checked={stateRule3.checked}
-                                        onColor="#86d3ff"
-                                        onHandleColor="#2693e6"
-                                        handleDiameter={20}
-                                        uncheckedIcon={false}
-                                        checkedIcon={false}
-                                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                                        height={15}
-                                        width={30} />
+                                        <Switch
+                                            onChange={handleChangeRule3}
+                                            checked={stateRule3.checked}
+                                            onColor="#86d3ff"
+                                            onHandleColor="#2693e6"
+                                            handleDiameter={20}
+                                            uncheckedIcon={false}
+                                            checkedIcon={false}
+                                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                            height={15}
+                                            width={30} />
                                     </div>
                                 </div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Events/Parties allowed</div>
                                     <div className="HostYourApartment2122">
-                                    <Switch 
-                                        onChange={handleChangeRule4} 
-                                        checked={stateRule4.checked}
-                                        onColor="#86d3ff"
-                                        onHandleColor="#2693e6"
-                                        handleDiameter={20}
-                                        uncheckedIcon={false}
-                                        checkedIcon={false}
-                                        boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-                                        activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-                                        height={15}
-                                        width={30} />
+                                        <Switch
+                                            onChange={handleChangeRule4}
+                                            checked={stateRule4.checked}
+                                            onColor="#86d3ff"
+                                            onHandleColor="#2693e6"
+                                            handleDiameter={20}
+                                            uncheckedIcon={false}
+                                            checkedIcon={false}
+                                            boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
+                                            activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
+                                            height={15}
+                                            width={30} />
                                     </div>
                                 </div>
 
@@ -1388,7 +1394,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 8: Additional rules</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '53.28%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '53.28%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1397,12 +1403,12 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Additional rules</div>
-                                    <textarea placeholder="Enter the rules ..." value={allVar.additionalHouseRules} onChange={e => setAllVar({...allVar, additionalHouseRules: e.target.value})}></textarea>
+                                    <textarea placeholder="Enter the rules ..." value={allVar.additionalHouseRules} onChange={e => setAllVar({ ...allVar, additionalHouseRules: e.target.value })}></textarea>
                                 </div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Specific details guests must know about your space</div>
-                                    <textarea placeholder="Enter the specific details ..." value={allVar.specifiecDetailsForGuests} onChange={e => setAllVar({...allVar, specifiecDetailsForGuests: e.target.value})}></textarea>
+                                    <textarea placeholder="Enter the specific details ..." value={allVar.specifiecDetailsForGuests} onChange={e => setAllVar({ ...allVar, specifiecDetailsForGuests: e.target.value })}></textarea>
                                 </div>
 
                             </div>
@@ -1429,7 +1435,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 9: Booking informations</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '59.94%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '59.94%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1438,7 +1444,7 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Notice before guest arrival</div>
-                                    <select ref={p91} value={allVar.noticeBeforeGuestArrial} onChange={e => setAllVar({...allVar, noticeBeforeGuestArrial: e.target.value})}>
+                                    <select ref={p91} value={allVar.noticeBeforeGuestArrial} onChange={e => setAllVar({ ...allVar, noticeBeforeGuestArrial: e.target.value })}>
                                         <option value="0">Select the time</option>
                                         <option value="1 day">At least 1 day</option>
                                         <option value="2 day">At least 2 days</option>
@@ -1450,7 +1456,7 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Booking availability</div>
-                                    <select ref={p92} value={allVar.BookingAvailability} onChange={e => setAllVar({...allVar, BookingAvailability: e.target.value})}>
+                                    <select ref={p92} value={allVar.BookingAvailability} onChange={e => setAllVar({ ...allVar, BookingAvailability: e.target.value })}>
                                         <option value="0">Select the time</option>
                                         <option value="All">All future dates</option>
                                         <option value="12m">12 months in advance</option>
@@ -1464,9 +1470,11 @@ export default function HostYourApartment() {
                                 <div className="HostYourApartment12345">
                                     <div className="HostYourApartment212121">Arrive before</div>
                                     {/* <input ref={p93} value={allVar.arriveBefore} type="time" step="3600" onChange={e => setAllVar({...allVar, arriveBefore: e.target.value})} /> */}
-                                    <select style={{outline: 'none', width: '60%', border: 'none', borderBottom:' 1px solid #e1e1e1', color: '#818181',
-                                  padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'}}
-                                  ref={p93} value={allVar.arriveBefore} onChange={e => setAllVar({...allVar, arriveBefore: e.target.value})}>
+                                    <select style={{
+                                        outline: 'none', width: '60%', border: 'none', borderBottom: ' 1px solid #e1e1e1', color: '#818181',
+                                        padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'
+                                    }}
+                                        ref={p93} value={allVar.arriveBefore} onChange={e => setAllVar({ ...allVar, arriveBefore: e.target.value })}>
                                         <option value="0">Select the hours</option>
                                         <option value="All">1</option>
                                         <option value="12m">2</option>
@@ -1481,8 +1489,10 @@ export default function HostYourApartment() {
                                         <option value="3m1">11</option>
                                         <option value="1m1">12</option>
                                     </select>
-                                    <select style={{outline: 'none', width: '30%', border: 'none', borderBottom:' 1px solid #e1e1e1', color: '#818181',
-                                  padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'}}  ref={p93} value={allVar.arriveBeforeAmpm} onChange={e => setAllVar({...allVar, arriveBeforeAmpm: e.target.value})}>
+                                    <select style={{
+                                        outline: 'none', width: '30%', border: 'none', borderBottom: ' 1px solid #e1e1e1', color: '#818181',
+                                        padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'
+                                    }} ref={p93} value={allVar.arriveBeforeAmpm} onChange={e => setAllVar({ ...allVar, arriveBeforeAmpm: e.target.value })}>
                                         <option value="0">Select the hours</option>
                                         <option value="All">AM</option>
                                         <option value="12m">PM</option></select>
@@ -1491,8 +1501,10 @@ export default function HostYourApartment() {
                                 <div className="HostYourApartment12345">
                                     <div className="HostYourApartment212121">Arrive after</div>
                                     {/* <input ref={p94} value={allVar.arriveAfter} type="time" onChange={e => setAllVar({...allVar, arriveAfter: e.target.value})} /> */}
-                                    <select style={{outline: 'none', width: '60%', border: 'none', borderBottom:' 1px solid #e1e1e1', color: '#818181',
-                                  padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'}} ref={p94} value={allVar.arriveAfter} onChange={e => setAllVar({...allVar, arriveAfter: e.target.value})}>
+                                    <select style={{
+                                        outline: 'none', width: '60%', border: 'none', borderBottom: ' 1px solid #e1e1e1', color: '#818181',
+                                        padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'
+                                    }} ref={p94} value={allVar.arriveAfter} onChange={e => setAllVar({ ...allVar, arriveAfter: e.target.value })}>
                                         <option value="0">Select the hours</option>
                                         <option value="All">1</option>
                                         <option value="12m">2</option>
@@ -1507,8 +1519,10 @@ export default function HostYourApartment() {
                                         <option value="3m1">11</option>
                                         <option value="1m1">12</option>
                                     </select>
-                                    <select style={{outline: 'none', width: '30%', border: 'none', borderBottom:' 1px solid #e1e1e1', color: '#818181',
-                                  padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'}} ref={p94} value={allVar.leaveBeforeAmpm} onChange={e => setAllVar({...allVar, leaveBeforeAmpm: e.target.value})}>
+                                    <select style={{
+                                        outline: 'none', width: '30%', border: 'none', borderBottom: ' 1px solid #e1e1e1', color: '#818181',
+                                        padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'
+                                    }} ref={p94} value={allVar.leaveBeforeAmpm} onChange={e => setAllVar({ ...allVar, leaveBeforeAmpm: e.target.value })}>
                                         <option value="0">Select the hours</option>
                                         <option value="All">AM</option>
                                         <option value="12m">PM</option></select>
@@ -1517,8 +1531,10 @@ export default function HostYourApartment() {
                                 <div className="HostYourApartment12345">
                                     <div className="HostYourApartment212121">Leave before</div>
                                     {/* <input ref={p95} value={allVar.leaveBefore} type="time" onChange={e => setAllVar({...allVar, leaveBefore: e.target.value})} /> */}
-                                    <select style={{outline: 'none', width: '60%', border: 'none', borderBottom:' 1px solid #e1e1e1', color: '#818181',
-                                  padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'}} ref={p95} value={allVar.leaveBefore} onChange={e => setAllVar({...allVar, leaveBefore: e.target.value})}>.
+                                    <select style={{
+                                        outline: 'none', width: '60%', border: 'none', borderBottom: ' 1px solid #e1e1e1', color: '#818181',
+                                        padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'
+                                    }} ref={p95} value={allVar.leaveBefore} onChange={e => setAllVar({ ...allVar, leaveBefore: e.target.value })}>.
                                         <option value="0">Select the hours</option>
                                         <option value="All">1</option>
                                         <option value="12m">2</option>
@@ -1533,12 +1549,14 @@ export default function HostYourApartment() {
                                         <option value="3m1">11</option>
                                         <option value="1m1">12</option>
                                     </select>
-                                    <select style={{outline: 'none', width: '30%', border: 'none', borderBottom:' 1px solid #e1e1e1', color: '#818181',
-                                  padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'}} ref={p94} value={allVar.arriveAfter} onChange={e => setAllVar({...allVar, arriveAfter: e.target.value})}>
+                                    <select style={{
+                                        outline: 'none', width: '30%', border: 'none', borderBottom: ' 1px solid #e1e1e1', color: '#818181',
+                                        padding: '6px 8px', fontFamily: ' sansSerif', marginTop: '8px'
+                                    }} ref={p94} value={allVar.arriveAfter} onChange={e => setAllVar({ ...allVar, arriveAfter: e.target.value })}>
                                         <option value="0">Select the hours</option>
                                         <option value="All">AM</option>
                                         <option value="12m">PM</option></select>
-                            </div>
+                                </div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Minimum stay in nights</div>
@@ -1550,7 +1568,7 @@ export default function HostYourApartment() {
                                             setErrTab5(true);
                                             setInterval(() => setErrTab5(false), errorDisplayTime);
                                         } else {
-                                            setAllVar({...allVar, minStayInNight: e.target.value})
+                                            setAllVar({ ...allVar, minStayInNight: e.target.value })
                                         }
                                     }} />
                                 </div>
@@ -1565,7 +1583,7 @@ export default function HostYourApartment() {
                                             setErrTab5(true);
                                             setInterval(() => setErrTab5(false), errorDisplayTime);
                                         } else {
-                                            setAllVar({...allVar, maxStayInNight: e.target.value})
+                                            setAllVar({ ...allVar, maxStayInNight: e.target.value })
                                         }
                                     }} />
                                 </div>
@@ -1577,45 +1595,45 @@ export default function HostYourApartment() {
                                     setTab8(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    p91.current.style.border="none";
-                                    p91.current.style.borderBottom="1px solid #e1e1e1";
-                                    p92.current.style.border="none";
-                                    p92.current.style.borderBottom="1px solid #e1e1e1";
-                                    p93.current.style.border="1px solid #e1e1e1";
-                                    p94.current.style.border="1px solid #e1e1e1";
-                                    p95.current.style.border="1px solid #e1e1e1";
-                                    p96.current.style.border="1px solid #e1e1e1";
-                                    p97.current.style.border="1px solid #e1e1e1";
-                                    if(allVar.noticeBeforeGuestArrial === "0") {
-                                        p91.current.style.border="none";
-                                        p91.current.style.borderRadius="4px";
-                                        p91.current.style.border="1px solid red";
+                                    p91.current.style.border = "none";
+                                    p91.current.style.borderBottom = "1px solid #e1e1e1";
+                                    p92.current.style.border = "none";
+                                    p92.current.style.borderBottom = "1px solid #e1e1e1";
+                                    p93.current.style.border = "1px solid #e1e1e1";
+                                    p94.current.style.border = "1px solid #e1e1e1";
+                                    p95.current.style.border = "1px solid #e1e1e1";
+                                    p96.current.style.border = "1px solid #e1e1e1";
+                                    p97.current.style.border = "1px solid #e1e1e1";
+                                    if (allVar.noticeBeforeGuestArrial === "0") {
+                                        p91.current.style.border = "none";
+                                        p91.current.style.borderRadius = "4px";
+                                        p91.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
-                                    } else if(allVar.BookingAvailability === "0") {
-                                        p92.current.style.border="none";
-                                        p92.current.style.borderRadius="4px";
-                                        p92.current.style.border="1px solid red";
+                                    } else if (allVar.BookingAvailability === "0") {
+                                        p92.current.style.border = "none";
+                                        p92.current.style.borderRadius = "4px";
+                                        p92.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
-                                    } else if(allVar.arriveBefore === "") {
-                                        p93.current.style.border="1px solid red";
+                                    } else if (allVar.arriveBefore === "") {
+                                        p93.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
-                                    } else if(allVar.arriveAfter === "") {
-                                        p94.current.style.border="1px solid red";
+                                    } else if (allVar.arriveAfter === "") {
+                                        p94.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
-                                    } else if(allVar.leaveBefore === "") {
-                                        p95.current.style.border="1px solid red";
+                                    } else if (allVar.leaveBefore === "") {
+                                        p95.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
-                                    } else if(allVar.minStayInNight === "") {
-                                        p96.current.style.border="1px solid red";
+                                    } else if (allVar.minStayInNight === "") {
+                                        p96.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
-                                    } else if(allVar.maxStayInNight === "") {
-                                        p97.current.style.border="1px solid red";
+                                    } else if (allVar.maxStayInNight === "") {
+                                        p97.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else {
@@ -1637,7 +1655,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 10: Your pricing</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '66.6%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '66.6%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1646,27 +1664,27 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Currency</div>
-                                    <select ref={p10_1} value={allVar.currency} onChange={e => {setAllVar({...allVar, currency: e.target.value});setFinalCurrencyVal(e)}}>
+                                    <select ref={p10_1} value={allVar.currency} onChange={e => { setAllVar({ ...allVar, currency: e.target.value }); setFinalCurrencyVal(e) }}>
                                         <option value="0">Select currency</option>
                                         {
-                                            currencyName.sort(function(a, b) {
-                                                if(a.name < b.name) return -1;
-                                                if(a.name > b.name) return 1;
+                                            currencyName.sort(function (a, b) {
+                                                if (a.name < b.name) return -1;
+                                                if (a.name > b.name) return 1;
                                                 return 0;
                                             })
-                                            .map(val => <option value={val.symbol_native}>{val.name} ({val.symbol_native})</option>)
+                                                .map(val => <option value={val.symbol_native}>{val.name} ({val.symbol_native})</option>)
                                         }
                                     </select>
                                 </div>
 
                                 <div className="HostYourApartment212">
-                                    <div className="HostYourApartment2121" style={{color: "black", fontSize: "17px"}}>Base price</div>
-                                    <input ref={p10_2} value={allVar.basePrice} type="number" style={{borderColor: "grey", color: "black", boxShadow: "3px 3px 5px #9E9E9E"}} placeholder="Enter the price ..." onChange={e => setAllVar({...allVar, basePrice: e.target.value})} />
+                                    <div className="HostYourApartment2121" style={{ color: "black", fontSize: "17px" }}>Base price</div>
+                                    <input ref={p10_2} value={allVar.basePrice} type="number" style={{ borderColor: "grey", color: "black", boxShadow: "3px 3px 5px #9E9E9E" }} placeholder="Enter the price ..." onChange={e => setAllVar({ ...allVar, basePrice: e.target.value })} />
                                 </div>
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Discount offered to guests</div>
-                                    <select value={allVar.discountOfferedToGuest} onChange={e => setAllVar({...allVar, discountOfferedToGuest: e.target.value})}>
+                                    <select value={allVar.discountOfferedToGuest} onChange={e => setAllVar({ ...allVar, discountOfferedToGuest: e.target.value })}>
                                         <option value="0">None</option>
                                         <option value="5">5%</option>
                                         <option value="10m">10%</option>
@@ -1689,18 +1707,18 @@ export default function HostYourApartment() {
                                     setTab9(true);
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    p10_1.current.style.border="none";
-                                    p10_1.current.style.borderBottom="1px solid #e1e1e1";
-                                    p10_2.current.style.border="1px solid #e1e1e1";
-                                
+                                    p10_1.current.style.border = "none";
+                                    p10_1.current.style.borderBottom = "1px solid #e1e1e1";
+                                    p10_2.current.style.border = "1px solid #e1e1e1";
+
                                     if (allVar.currency === "0") {
-                                        p10_1.current.style.border="none";
-                                        p10_1.current.style.borderRadius="4px";
-                                        p10_1.current.style.border="1px solid red";
+                                        p10_1.current.style.border = "none";
+                                        p10_1.current.style.borderRadius = "4px";
+                                        p10_1.current.style.border = "1px solid red";
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else if (allVar.basePrice === "") {
-                                        p10_2.current.style.border="1px solid red";
+                                        p10_2.current.style.border = "1px solid red";
                                         p10_2.current.focus();
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
@@ -1723,7 +1741,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 11: State laws</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '73.26%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '73.26%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1778,7 +1796,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 12: Your government ID's</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '79.92%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '79.92%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1787,21 +1805,21 @@ export default function HostYourApartment() {
 
                                 <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121Para">
-                                        Provide a government-issued ID and a face photo of yourself    
+                                        Provide a government-issued ID and a face photo of yourself
                                     </div>
                                 </div>
 
                                 <div className="HostApart90">
-                                    <input type="file" id="gov" accept="image/jpg, image/jpeg, image/png" onChange={e => uploadGovImageHandler(e)} style={{display: "none"}} />
+                                    <input type="file" id="gov" accept="image/jpg, image/jpeg, image/png" onChange={e => uploadGovImageHandler(e)} style={{ display: "none" }} />
                                     <div className="HostApart901">Government Id</div>
                                     <label className="HostApart902" htmlFor="gov">Add</label>
                                 </div>
                                 <div className="HostApart90">
-                                    <input type="file" id="face" accept="image/jpg, image/jpeg, image/png" onChange={e => uploadFaceImageHandler(e)} style={{display: "none"}} />
+                                    <input type="file" id="face" accept="image/jpg, image/jpeg, image/png" onChange={e => uploadFaceImageHandler(e)} style={{ display: "none" }} />
                                     <div className="HostApart901">Face Photo</div>
                                     <label className="HostApart902" htmlFor="face">Add</label>
                                 </div>
-                                
+
                                 {/* result */}
                                 {selectedGovImage && (
                                     <div className="uploadedImageCont">
@@ -1836,10 +1854,10 @@ export default function HostYourApartment() {
                                             "userId": JSON.parse(localStorage.getItem("token")).userId
                                         });
                                         var requestOptions = {
-                                          method: 'POST',
-                                          headers: myHeaders,
-                                          body: raw,
-                                          redirect: 'follow'
+                                            method: 'POST',
+                                            headers: myHeaders,
+                                            body: raw,
+                                            redirect: 'follow'
                                         };
                                         fetch(`${url.baseUrl}updateDocs`, requestOptions)
                                             .then(response => response.json())
@@ -1867,7 +1885,7 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 13: Enter full address</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '86.58%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '86.58%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
                         <div className="HostYourApartment2E1">
@@ -1877,23 +1895,23 @@ export default function HostYourApartment() {
                                 <div className="HostYourApartment212Addres">
 
                                     <div className="HostYourApartment212">
-                                        <div className="HostYourApartment2121" style={{width: "100%"}}>House no.</div>
-                                        <input ref={p13_1} value={allVar.addrHouseNumber} type="number" style={{width: "100px"}} placeholder="Enter the house number ..."  onChange={e => setAllVar({...allVar, addrHouseNumber: e.target.value})}/>
+                                        <div className="HostYourApartment2121" style={{ width: "100%" }}>House no.</div>
+                                        <input ref={p13_1} value={allVar.addrHouseNumber} type="number" style={{ width: "100px" }} placeholder="Enter the house number ..." onChange={e => setAllVar({ ...allVar, addrHouseNumber: e.target.value })} />
                                     </div>
 
                                     <div className="HostYourApartment212">
                                         <div className="HostYourApartment2121">Street</div>
-                                        <input ref={p13_2} value={allVar.addrStreet} type="text" placeholder="Enter the street name ..."  onChange={e => setAllVar({...allVar, addrStreet: e.target.value})}/>
+                                        <input ref={p13_2} value={allVar.addrStreet} type="text" placeholder="Enter the street name ..." onChange={e => setAllVar({ ...allVar, addrStreet: e.target.value })} />
                                     </div>
 
                                     <div className="HostYourApartment212">
                                         <div className="HostYourApartment2121">City</div>
-                                        <input ref={p13_3} value={allVar.addrCity} type="text" placeholder="Enter the city name ..."  onChange={e => setAllVar({...allVar, addrCity: e.target.value})}/>
+                                        <input ref={p13_3} value={allVar.addrCity} type="text" placeholder="Enter the city name ..." onChange={e => setAllVar({ ...allVar, addrCity: e.target.value })} />
                                     </div>
 
                                     <div className="HostYourApartment212">
                                         <div className="HostYourApartment2121">State</div>
-                                        <input ref={p13_4} value={allVar.addrState} type="text" placeholder="Enter your state ..."  onChange={e => setAllVar({...allVar, addrState: e.target.value})}/>
+                                        <input ref={p13_4} value={allVar.addrState} type="text" placeholder="Enter your state ..." onChange={e => setAllVar({ ...allVar, addrState: e.target.value })} />
                                     </div>
 
                                 </div>
@@ -1911,27 +1929,27 @@ export default function HostYourApartment() {
                                     }
                                 }}>Back</button>
                                 <button className="HostYourApartment222" onClick={() => {
-                                    p13_1.current.style.border="1px solid #e1e1e1";
-                                    p13_2.current.style.border="1px solid #e1e1e1";
-                                    p13_3.current.style.border="1px solid #e1e1e1";
-                                    p13_4.current.style.border="1px solid #e1e1e1";
+                                    p13_1.current.style.border = "1px solid #e1e1e1";
+                                    p13_2.current.style.border = "1px solid #e1e1e1";
+                                    p13_3.current.style.border = "1px solid #e1e1e1";
+                                    p13_4.current.style.border = "1px solid #e1e1e1";
                                     if (allVar.addrHouseNumber === "") {
-                                        p13_1.current.style.border="1px solid red";
+                                        p13_1.current.style.border = "1px solid red";
                                         p13_1.current.focus();
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else if (allVar.addrStreet === "") {
-                                        p13_2.current.style.border="1px solid red";
+                                        p13_2.current.style.border = "1px solid red";
                                         p13_2.current.focus();
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else if (allVar.addrCity === "") {
-                                        p13_3.current.style.border="1px solid red";
+                                        p13_3.current.style.border = "1px solid red";
                                         p13_3.current.focus();
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
                                     } else if (allVar.addrState === "") {
-                                        p13_4.current.style.border="1px solid red";
+                                        p13_4.current.style.border = "1px solid red";
                                         p13_4.current.focus();
                                         setErrTab(true);
                                         setInterval(() => setErrTab(false), errorDisplayTime);
@@ -1959,23 +1977,23 @@ export default function HostYourApartment() {
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 14: Map your location</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '93.24%'}}></div>
+                        <div className="HostYourApartment11" style={{ width: '93.24%' }}></div>
                     </div>
                     <div className="HostYourApartment2">
-                        
-                        <div className="HostYourApartment21" style={{width: '95%'}}>
+
+                        <div className="HostYourApartment21" style={{ width: '95%' }}>
                             <div className="HostYourApartment21Map2">
 
-                                <GoogleMap 
-                                    mapContainerStyle={mapContainerStyle} 
-                                    zoom={14} 
-                                    center={center} 
+                                <GoogleMap
+                                    mapContainerStyle={mapContainerStyle}
+                                    zoom={14}
+                                    center={center}
                                     options={option}
                                     onClick={e => onMapClick(e)}
                                     onLoad={onMapLoad}
                                 >
 
-                                    {markers.map(marker => (<Marker key={marker.lat} position={{lat: marker.lat, lng: marker.lng}} />))}
+                                    {markers.map(marker => (<Marker key={marker.lat} position={{ lat: marker.lat, lng: marker.lng }} />))}
 
                                 </GoogleMap>
 
@@ -2023,7 +2041,7 @@ export default function HostYourApartment() {
                                     <span>{allVar.discountOfferedToGuest}</span>
                                 </div> */}
 
-                                {/* <div className="HostYourApartment212">
+            {/* <div className="HostYourApartment212">
                                     <div className="HostYourApartment2121">Title - <span>{allVar.listingTitle}</span></div>
                                     <div className="HostYourApartment2123"><img src={CheckGreenIcon} alt="" /></div>
                                 </div>
@@ -2105,118 +2123,132 @@ export default function HostYourApartment() {
                         </div>
                     </div>
                 </div>
-            )} */} 
+            )} */}
 
 
-{/* ...................................................................................................................... */}
+            {/* ...................................................................................................................... */}
 
-{tab15 && (
+            {tab15 && (
                 <div className="HostYourApartment0M">
                     <div className="HostYourApartment0">Step 15: Preview your inputs</div>
                     <div className="HostYourApartment1">
-                        <div className="HostYourApartment11" style={{width: '100%'}}></div> 
-                   
-                    <div className="carInfo0Cont">
-                        
-                        <div className="reviews0">
-                            {imagetab1 &&(
+                        <div className="HostYourApartment11" style={{ width: '100%' }}></div>
 
-                                <div className="carInfo01">     
-                                {imageList[0] ? <div className="carInfo01img1"><img src={imageList[0]} alt="" /></div> : <div className="carInfo01img1"><img src={bg} alt="" /></div>}
-                                <div className="carInfo01img2">
-                                    <div className="carInfo01img21">
-                                        {imageList[1] ? <img src={imageList[1]} alt="" /> : <img src={bg} alt="" />}
+                        <div className="carInfo0Cont">
+
+                            <div className="reviews0">
+                                {imagetab1 && (
+
+                                    <div className="carInfo01">
+                                        {imageList[0] ? <div className="carInfo01img1"><img src={imageList[0]} alt="" /></div> : <div className="carInfo01img1"><img src={bg} alt="" /></div>}
+                                        <div className="carInfo01img2">
+                                            <div className="carInfo01img21">
+                                                {imageList[1] ? <img src={imageList[1]} alt="" /> : <img src={bg} alt="" />}
+                                            </div>
+                                            <div className="carInfo01img21" style={{ marginTop: '10px', height: '50%' }}>
+                                                {imageList[2] ? <img src={imageList[2]} alt="" /> : <img src={bg} alt="" />}
+                                            </div>
+
+                                        </div>
+                                        <div className="carInfo01img3" onClick={() => { setImageTab2(true); setImageTab1(false) }} >5+ Photos </div>
                                     </div>
-                                    <div className="carInfo01img21" style={{marginTop: '10px', height: '50%'}}>
-                                        {imageList[2] ? <img src={imageList[2]} alt="" /> : <img src={bg} alt="" />}
-                                    </div>
-                                    
-                                </div>
-                                <div className="carInfo01img3" onClick={() => {setImageTab2(true); setImageTab1(false)}} >5+ Photos </div>
-                                </div>
                                 )}
 
-                                {imagetab2 &&(
+                                {imagetab2 && (
                                     <ImageSlider images={imageList} />
                                 )}
 
-                            <div style={{float: "left"}}>
-                                <div className="hotelsinfoo1">
-                                    <div className="hotelInfo0S">
-                                        <div className="hotelInfo1">
-                                            <div className="hotelInfo01">{allVar.listingTitle}</div>
-                                            <div className="hotelInfo01I0">{allVar.addrStreet}, {allVar.addrCity}, {allVar.addrState}</div>
-                                            <div style={{marginBottom: "15px", marginTop: "5px", float: "left"}}>{allVar.noOfGuests} guests . {allVar.bedrooms} bedroom . {allVar.noOfBed} bed . {allVar.baths} bathroom</div>
-                                        </div>
-                                    </div>
+                                <div style={{ float: "left" }}>
+                                    <div className="hotelsinfoo1">
+                                        <div className="hotelInfo0S">
+                                            <div className="hotelInfo1">
+                                                <div className="hotelInfo01">{allVar.listingTitle}</div>
+                                                <div className="hotelInfo01I0">{allVar.addrStreet}, {allVar.addrCity}, {allVar.addrState}</div>
+                                                <div style={{ marginBottom: "15px", marginTop: "5px", float: "left" }}>{allVar.noOfGuests} guests . {allVar.bedrooms} bedroom . {allVar.noOfBed} bed . {allVar.baths} bathroom</div>
+                                            </div>
+                                            <button className="hotelInfo01button" onClick={() => { setTabVideo(true); setTab22(false) }}>Watch Video</button>
 
-                                     <div className="hotelInfo0S1">
-                                        <div className="hotelInfo1">
-                                            <div className="hotelInfo01">About Apartment</div>
-                                            <div className="hotelInfo01I1">
-                                                {allVar.listingDescription}
+                                        </div>
+                                        {tabVideo && (
+
+                                            <div className="signup00" onClick={() => { setTabVideo(false); setTab22(true) }}>
+                                                <div className="sign00">
+
+
+                                                    <div >  <video width="100%" height="100%" controls autoPlay >
+                                                        <source src={videoList} type="video/mp4" />
+                                                    </video></div>
+
+                                                </div>
+                                            </div>
+                                        )}
+                                        <div className="hotelInfo0S1">
+                                            <div className="hotelInfo1">
+                                                <div className="hotelInfo01">About Apartment</div>
+                                                <div className="hotelInfo01I1">
+                                                    {allVar.listingDescription}
+                                                </div>
                                             </div>
                                         </div>
+
+
+
+                                        <div className="hotelInfo0S1">
+                                            <div className="reviews10 ">
+                                                <div className="hotelInfo01">Amenities</div>
+                                                {getAmenList().map((item, key) => <div className="hotelInfo0198" >{key + 1}. {item}</div>)}
+                                            </div>
+                                        </div>   </div>
+                                </div>
+
+                                <div className="hotelInfo0S1">
+                                    <div className="hotelInfo1">
+                                        <div className="reviews0111">Map</div>
                                     </div>
-                                    
-                            
-                        
-                                       <div className="hotelInfo0S1">
-                                      <div className="reviews10 ">
-                                          <div className="hotelInfo01">Amenities</div>
-                                          {getAmenList().map((item, key) => <div className="hotelInfo0198" >{key+1}. {item}</div>)}
-                                      </div>
-                                  </div>   </div>
-                                      </div>
-        
-                            <div className="hotelInfo0S1">
-                                <div className="hotelInfo1">
-                                    <div className="reviews0111">Map</div>
+                                </div>
+                                <div className="Map00">
+                                    <Map lat={markers[0].lat} lng={markers[0].lng} />
                                 </div>
                             </div>
-                            <div className="Map00">
-                                <Map lat={markers[0].lat} lng={markers[0].lng} />
-                            </div>
                         </div>
-                    </div>
-                    <div className="HostYourApartment22"> 
-                                <button className="HostYourApartment321" onClick={() => {
-                                    setTab15(false);
-                                    setTab14(true);
-                                }}>Back</button>
-                                <button className="HostYourApartment123" onClick={finalHostingSubmition}>Publish</button>
-                            </div>
- 
-                    <div className="reviews">
-                        <div className="carInfo10">
-                            <div className="carInfo101">$ {allVar.basePrice}/night</div>
-                          
+                        <div className="HostYourApartment22">
+                            <button className="HostYourApartment321" onClick={() => {
+                                setTab15(false);
+                                setTab14(true);
+                            }}>Back</button>
+                            <button className="HostYourApartment123" onClick={finalHostingSubmition}>Publish</button>
                         </div>
-                        <div className="carInfo11">
-                            <img src={JSON.parse(localStorage.getItem("token")).userProfile}alt="" />
-                        </div>
-                        <div className="carInfo12">
-                        {JSON.parse(localStorage.getItem("token")).userName}
+{tab22 &&(
+                        <div className="reviews">
+                            <div className="carInfo10">
+                                <div className="carInfo101">$ {allVar.basePrice}/night</div>
+
                             </div>
-                        
+                            <div className="carInfo11">
+                                <img src={JSON.parse(localStorage.getItem("token")).userProfile} alt="" />
+                            </div>
+                            <div className="carInfo12">
+                                {JSON.parse(localStorage.getItem("token")).userName}
+                            </div>
+
                             <div className="carInfo13">(Host)</div>
-                   
-                        <div className="carInfo14">
-                            <span className="carInfo141">
-                                4.7 <span className="carInfo1411"><img src="" alt="" /></span>
+
+                            <div className="carInfo14">
+                                <span className="carInfo141">
+                                    4.7 <span className="carInfo1411"><img src="" alt="" /></span>
                                 . 68 Reviews
                             </span>
+                            </div>
+
                         </div>
-                       
-                    </div> 
-                     
-                </div>
-
-                
-
+)}
                     </div>
-                )
-    }
+
+
+
+                </div>
+            )
+            }
 
 
 
@@ -2273,6 +2305,10 @@ export default function HostYourApartment() {
             )}
             {errTab6 && (
                 <div className="HostYourApartmentError0">You must upload documents !!!</div>
+            )}
+
+            {errTab7 && (
+                <div className="HostYourApartmentError0">A short video is required to proceed !!!</div>
             )}
 
             {mainLoad && (

@@ -79,12 +79,12 @@ export default function Homes() {
 
     
     const [topBar, setTopBar] = useState(false);
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            setTopBar(false)
-        }
-        console.log(window.scrollY)
-    });
+    // window.addEventListener('scroll', () => {
+    //     if (window.scrollY > 100) {
+    //         setTopBar(false)
+    //     }
+    //     console.log(window.scrollY)
+    // });
     const [barTab2, setBarTab2] = useState(false);
     const [barTab3, setBarTab3] = useState(false);
 
@@ -732,13 +732,14 @@ export default function Homes() {
 
                             {places.map((val, ind) => {return (
 
-                                <Link to={{pathname: `/hotelInfo/${val.id}`}} key={ind}  className="placesNearMob121">
-                                    <img src={v1} alt="" />
-                                    <div className="placesNearMob1211">Name {val.userId}</div>
+                         <div key={ind}  className="placesNearMob121">
+                         <ImageSlider images={val.imageList} />
+                         <div onClick={()=> history.push(`/hotelInfo/${val.id}`)} className="placesNearMob12110">{val.listingTitle}</div>
+                         <div className="placesNearMob121111">{val.whatGuestBook}</div>
+                                  
                                     <div className="placesNearMob1212">{val.noOfGuests} guests, {val.noOfBed} beds, {val.baths} bathroom</div>
-                                    <div className="placesNearMob1213"><img src={starIcon} alt="" /> 5.4 <span>(30)</span></div>
-                                    <div className="placesNearMob1214"><span>$ {val.basePrice}</span> / night</div>
-                                </Link>
+                                   <div className="placesNearMob1214"><span>$ {val.basePrice}</span> / night</div>
+                                </div>
 
                             )})}
 
